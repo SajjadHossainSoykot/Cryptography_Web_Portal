@@ -1,0 +1,22 @@
+Cryptography Web Portal
+Copyright (c) 2026 Sajjad Hossain Soykot
+
+This project is based on academic laboratory experiments developed for:
+
+ICT-4110 – Cryptography and Network Security Laboratory
+Islamic University, Bangladesh
+
+This project includes implementations of classical and modern cryptographic algorithms
+such as Caesar Cipher, Playfair Cipher, Hill Cipher, Vigenère Cipher, Rail Fence Cipher,
+RSA, and Diffie-Hellman.
+
+Some parts of this project were adapted and refactored from previous academic work:
+https://github.com/SajjadHossainSoykot/ICT-4110-Cryptography-and-Network-Security-Laboratory
+
+Modifications:
+- Converted standalone scripts into REST API (FastAPI/Flask)
+- Structured backend for web integration
+- Designed for frontend integration using Next.js
+- Improved modularity and usability
+
+This project is intended for educational purposes only.
