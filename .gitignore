@@ -22,3 +22,7 @@ venv/
 
 # Misc
 *.sqlite3
+
+Test/
+test.py
+test.ipynb
