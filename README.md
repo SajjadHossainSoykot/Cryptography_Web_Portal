@@ -205,6 +205,6 @@ GitHub: https://github.com/SajjadHossainSoykot
 ## 🚀 Project Status
 
 ✔ Backend Completed  
-✔ Frontend Ongoing
+✔ Frontend Pending
 ✔ API Integration Pending
-✔ Ready for deployment - Pending
+✔ Ready for deployment Pending
