@@ -1,38 +1,188 @@
-import { FlaskConical } from "lucide-react";
-import { PageHeader } from "../../components/ui/PageHeader";
+"use client";
+
+import { useMemo, useState } from "react";
+import { Play } from "lucide-react";
+import {
+  algorithms,
+  type Algorithm,
+  type AlgorithmMode,
+} from "../../data/algorithms";
+import { AlgorithmSelector } from "../../components/lab/AlgorithmSelector";
+import { ModeSelector } from "../../components/lab/ModeSelector";
+import { TextInputPanel } from "../../components/lab/TextInputPanel";
+import { KeyInputPanel } from "../../components/lab/KeyInputPanel";
+import { ApiPreview } from "../../components/lab/ApiPreview";
+import { ResultPanel } from "../../components/lab/ResultPanel";
 
 export default function LabPage() {
+  const [selectedAlgorithmId, setSelectedAlgorithmId] =
+    useState<Algorithm["id"]>("caesar");
+
+  const selectedAlgorithm = algorithms.find(
+    (algorithm) => algorithm.id === selectedAlgorithmId
+  ) as Algorithm;
+
+  const [selectedMode, setSelectedMode] = useState<AlgorithmMode>(
+    selectedAlgorithm.modes[0]
+  );
+
+  const [inputText, setInputText] = useState("HELLO");
+  const [keyValues, setKeyValues] = useState<Record<string, unknown>>(
+    selectedAlgorithm.defaultKey
+  );
+
+  const [result, setResult] = useState("");
+
+  function handleAlgorithmSelect(algorithmId: Algorithm["id"]) {
+    const nextAlgorithm = algorithms.find(
+      (algorithm) => algorithm.id === algorithmId
+    ) as Algorithm;
+
+    setSelectedAlgorithmId(nextAlgorithm.id);
+    setSelectedMode(nextAlgorithm.modes[0]);
+    setKeyValues(nextAlgorithm.defaultKey);
+    setResult("");
+
+    if (nextAlgorithm.id === "vigenere") {
+      setInputText("ATTACKATDAWN");
+    } else if (nextAlgorithm.id === "rail_fence") {
+      setInputText("WEAREDISCOVEREDFLEEATONCE");
+    } else if (nextAlgorithm.id === "rsa") {
+      setInputText("HELLO");
+    } else if (nextAlgorithm.id === "diffie_hellman") {
+      setInputText("");
+    } else {
+      setInputText("HELLO");
+    }
+  }
+
+  function handleKeyChange(key: string, value: unknown) {
+    setKeyValues((previous) => ({
+      ...previous,
+      [key]: value,
+    }));
+  }
+
+  const payload = useMemo(() => {
+    return {
+      algorithm: selectedAlgorithm.id,
+      mode: selectedMode,
+      text: prepareTextForPayload(selectedAlgorithm.id, selectedMode, inputText),
+      key: keyValues,
+    };
+  }, [selectedAlgorithm.id, selectedMode, inputText, keyValues]);
+
+  function handleRunDemo() {
+    setResult(
+      "UI is ready. Backend connection will be added in Step 4.\n\nCurrent payload:\n" +
+        JSON.stringify(payload, null, 2)
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <PageHeader
-        badge="Interactive Experiment Area"
-        title="Interactive Cryptography Lab"
-        description="Select a cryptographic algorithm, enter your message, customize keys, and run encryption, decryption, key generation, or key exchange using the FastAPI backend."
-      />
-
-      <section className="mx-auto max-w-7xl px-6 pb-20">
-        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8">
-          <div className="mb-5 flex items-center gap-3">
-            <div className="rounded-xl bg-cyan-400/10 p-3">
-              <FlaskConical className="h-6 w-6 text-cyan-300" />
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold text-white">
-                Lab Interface Coming Next
-              </h2>
-              <p className="text-slate-400">
-                In Step 3, this page will become the real interactive cipher
-                tester.
-              </p>
-            </div>
+      <section className="mx-auto max-w-7xl px-5 py-10">
+        <div className="mb-8">
+          <div className="mb-4 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-200">
+            Interactive Experiment Area
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <FeatureCard title="Select Algorithm" />
-            <FeatureCard title="Enter Text" />
-            <FeatureCard title="Change Keys" />
-            <FeatureCard title="View Result" />
+          <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+            Interactive Cryptography Lab
+          </h1>
+
+          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-400">
+            Select an algorithm, enter text, customize keys, preview the API
+            payload, and test your FastAPI cryptography backend.
+          </p>
+        </div>
+
+        <div className="grid gap-6">
+          <AlgorithmSelector
+            algorithms={algorithms}
+            selectedAlgorithmId={selectedAlgorithmId}
+            onSelect={handleAlgorithmSelect}
+          />
+
+          <div className="grid gap-6 xl:grid-cols-[1fr_420px]">
+            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+              <div className="mb-6">
+                <p className="mb-2 text-sm font-medium text-cyan-200">
+                  {selectedAlgorithm.category}
+                </p>
+
+                <h2 className="text-3xl font-bold text-white">
+                  {selectedAlgorithm.name}
+                </h2>
+
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-400">
+                  {selectedAlgorithm.description}
+                </p>
+              </div>
+
+              <div className="grid gap-6">
+                <ModeSelector
+                  modes={selectedAlgorithm.modes}
+                  selectedMode={selectedMode}
+                  onModeChange={(mode) => {
+                    setSelectedMode(mode);
+                    setResult("");
+
+                    if (selectedAlgorithm.id === "diffie_hellman") {
+                      setInputText("");
+                    }
+
+                    if (selectedAlgorithm.id === "rsa" && mode === "decrypt") {
+                      setInputText("3000, 28, 2726, 2726, 1307");
+                    }
+
+                    if (selectedAlgorithm.id === "rsa" && mode !== "decrypt") {
+                      setInputText("HELLO");
+                    }
+                  }}
+                />
+
+                <TextInputPanel
+                  value={inputText}
+                  mode={selectedMode}
+                  algorithmId={selectedAlgorithm.id}
+                  onChange={setInputText}
+                />
+
+                <KeyInputPanel
+                  algorithm={selectedAlgorithm}
+                  keyValues={keyValues}
+                  onKeyChange={handleKeyChange}
+                />
+
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    type="button"
+                    onClick={handleRunDemo}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-300"
+                  >
+                    <Play className="h-4 w-4" />
+                    Prepare Request
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setInputText("");
+                      setResult("");
+                    }}
+                    className="rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <aside className="grid content-start gap-6">
+              <ResultPanel result={result} />
+              <ApiPreview payload={payload} />
+            </aside>
           </div>
         </div>
       </section>
@@ -40,10 +190,21 @@ export default function LabPage() {
   );
 }
 
-function FeatureCard({ title }: { title: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-slate-950/70 p-5 text-sm font-medium text-slate-300">
-      {title}
-    </div>
-  );
+function prepareTextForPayload(
+  algorithmId: Algorithm["id"],
+  mode: AlgorithmMode,
+  inputText: string
+) {
+  if (mode === "keygen" || mode === "generate") {
+    return "";
+  }
+
+  if (algorithmId === "rsa" && mode === "decrypt") {
+    return inputText
+      .split(",")
+      .map((item) => Number(item.trim()))
+      .filter((item) => !Number.isNaN(item));
+  }
+
+  return inputText;
 }
