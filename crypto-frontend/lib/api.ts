@@ -20,10 +20,24 @@ export async function runCrypto(payload: CryptoPayload) {
     body: JSON.stringify(payload),
   });
 
-  const data = await response.json();
+  let data: unknown;
+
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error("Backend returned an invalid JSON response.");
+  }
 
   if (!response.ok) {
-    throw new Error(data.detail || "Crypto request failed.");
+    const errorMessage =
+      typeof data === "object" &&
+      data !== null &&
+      "detail" in data &&
+      typeof data.detail === "string"
+        ? data.detail
+        : "Crypto request failed.";
+
+    throw new Error(errorMessage);
   }
 
   return data;
