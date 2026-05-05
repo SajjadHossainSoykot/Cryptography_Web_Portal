@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Play } from "lucide-react";
+import { Loader2, Play } from "lucide-react";
 import {
   algorithms,
   type Algorithm,
@@ -13,6 +13,7 @@ import { TextInputPanel } from "../../components/lab/TextInputPanel";
 import { KeyInputPanel } from "../../components/lab/KeyInputPanel";
 import { ApiPreview } from "../../components/lab/ApiPreview";
 import { ResultPanel } from "../../components/lab/ResultPanel";
+import { runCrypto } from "../../lib/api";
 
 export default function LabPage() {
   const [selectedAlgorithmId, setSelectedAlgorithmId] =
@@ -32,6 +33,8 @@ export default function LabPage() {
   );
 
   const [result, setResult] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleAlgorithmSelect(algorithmId: Algorithm["id"]) {
     const nextAlgorithm = algorithms.find(
@@ -42,6 +45,7 @@ export default function LabPage() {
     setSelectedMode(nextAlgorithm.modes[0]);
     setKeyValues(nextAlgorithm.defaultKey);
     setResult("");
+    setError("");
 
     if (nextAlgorithm.id === "vigenere") {
       setInputText("ATTACKATDAWN");
@@ -72,11 +76,23 @@ export default function LabPage() {
     };
   }, [selectedAlgorithm.id, selectedMode, inputText, keyValues]);
 
-  function handleRunDemo() {
-    setResult(
-      "UI is ready. Backend connection will be added in Step 4.\n\nCurrent payload:\n" +
-        JSON.stringify(payload, null, 2)
-    );
+  async function handleRunAlgorithm() {
+    setIsLoading(true);
+    setError("");
+    setResult("");
+
+    try {
+      const data = await runCrypto(payload);
+      setResult(formatBackendResponse(data));
+    } catch (caughtError) {
+      const message =
+        caughtError instanceof Error
+          ? caughtError.message
+          : "Something went wrong.";
+      setError(message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -92,8 +108,8 @@ export default function LabPage() {
           </h1>
 
           <p className="mt-4 max-w-3xl text-base leading-7 text-slate-400">
-            Select an algorithm, enter text, customize keys, preview the API
-            payload, and test your FastAPI cryptography backend.
+            Select an algorithm, enter text, customize keys, send requests to
+            the FastAPI backend, and view the result instantly.
           </p>
         </div>
 
@@ -127,6 +143,7 @@ export default function LabPage() {
                   onModeChange={(mode) => {
                     setSelectedMode(mode);
                     setResult("");
+                    setError("");
 
                     if (selectedAlgorithm.id === "diffie_hellman") {
                       setInputText("");
@@ -158,20 +175,27 @@ export default function LabPage() {
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <button
                     type="button"
-                    onClick={handleRunDemo}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-300"
+                    disabled={isLoading}
+                    onClick={handleRunAlgorithm}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-cyan-400 px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    <Play className="h-4 w-4" />
-                    Prepare Request
+                    {isLoading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Play className="h-4 w-4" />
+                    )}
+                    {isLoading ? "Running..." : "Run Algorithm"}
                   </button>
 
                   <button
                     type="button"
+                    disabled={isLoading}
                     onClick={() => {
                       setInputText("");
                       setResult("");
+                      setError("");
                     }}
-                    className="rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200"
+                    className="rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     Clear
                   </button>
@@ -180,7 +204,11 @@ export default function LabPage() {
             </div>
 
             <aside className="grid content-start gap-6">
-              <ResultPanel result={result} />
+              <ResultPanel
+                result={result}
+                error={error}
+                isLoading={isLoading}
+              />
               <ApiPreview payload={payload} />
             </aside>
           </div>
@@ -207,4 +235,24 @@ function prepareTextForPayload(
   }
 
   return inputText;
+}
+
+function formatBackendResponse(data: unknown) {
+  if (!data || typeof data !== "object") {
+    return String(data);
+  }
+
+  const response = data as Record<string, unknown>;
+
+  if ("result" in response) {
+    const result = response.result;
+
+    if (typeof result === "string") {
+      return result;
+    }
+
+    return JSON.stringify(result, null, 2);
+  }
+
+  return JSON.stringify(data, null, 2);
 }
