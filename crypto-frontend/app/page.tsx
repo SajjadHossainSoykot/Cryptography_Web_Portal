@@ -20,7 +20,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-white md:text-6xl">
-            Learn, test, encrypt, and decrypt cryptographic algorithms.
+            <i>Learn, Test, Encrypt, & Decrypt Cryptographic Algorithms.</i>
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
