@@ -33,6 +33,7 @@ export default function LabPage() {
   );
 
   const [result, setResult] = useState("");
+  const [responseData, setResponseData] = useState<unknown>(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,6 +47,7 @@ export default function LabPage() {
     setKeyValues(nextAlgorithm.defaultKey);
     setResult("");
     setError("");
+    setResponseData(null);
 
     if (nextAlgorithm.id === "vigenere") {
       setInputText("ATTACKATDAWN");
@@ -80,9 +82,11 @@ export default function LabPage() {
     setIsLoading(true);
     setError("");
     setResult("");
+    setResponseData(null);
 
     try {
       const data = await runCrypto(payload);
+      setResponseData(data);
       setResult(formatBackendResponse(data));
     } catch (caughtError) {
       const message =
@@ -205,6 +209,7 @@ export default function LabPage() {
 
             <aside className="grid content-start gap-6">
               <ResultPanel
+                data={responseData}
                 result={result}
                 error={error}
                 isLoading={isLoading}
