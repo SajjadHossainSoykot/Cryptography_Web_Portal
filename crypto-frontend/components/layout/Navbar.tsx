@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, ShieldCheck, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const navLinks = [
@@ -33,16 +33,34 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/95 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="rounded-xl border border-cyan-400/30 bg-cyan-400/10 p-2">
-            <ShieldCheck className="h-5 w-5 text-cyan-300" />
+        <Link href="/" className="flex min-w-0 items-center gap-3">
+          <div
+            className="shrink-0 overflow-hidden rounded-xl border border-cyan-400/30 bg-cyan-400/10 p-1"
+            style={{
+              width: "40px",
+              height: "40px",
+            }}
+          >
+            <img
+              src="https://avatars.githubusercontent.com/u/105968856"
+              alt="Sajjad Hossain Soykot"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+                borderRadius: "10px",
+              }}
+            />
           </div>
 
-          <div>
-            <p className="text-sm font-bold tracking-wide text-white">
-              CryptoGraphy
+          <div className="min-w-0">
+            <p className="truncate text-sm font-bold tracking-wide text-white">
+              CipherXploreSS
             </p>
-            <p className="text-xs text-slate-400">Web Portal</p>
+            <p className="max-w-[260px] truncate text-xs text-slate-400">
+              Explore, Encrypt, Decrypt, and Understand Cryptography.
+            </p>
           </div>
         </Link>
 
