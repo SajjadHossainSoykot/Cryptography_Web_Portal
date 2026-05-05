@@ -3,9 +3,72 @@ import {
   GraduationCap,
   Lightbulb,
   Rocket,
-  UserRound,
 } from "lucide-react";
+
+import {
+  FaGithub,
+  FaLinkedinIn,
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+  FaDiscord,
+  FaTwitter,
+} from "react-icons/fa";
+
+import { SiCodeforces } from "react-icons/si";
+
 import { PageHeader } from "../../components/ui/PageHeader";
+
+const socialLinks = [
+  {
+    name: "GitHub",
+    href: "https://github.com/SajjadHossainSoykot",
+    icon: FaGithub,
+    className: "border-slate-400/30 bg-slate-800/70 text-white",
+  },
+  {
+    name: "LinkedIn",
+    href: "https://linkedin.com/in/sajjadhossainsoykot",
+    icon: FaLinkedinIn,
+    className: "border-blue-400/30 bg-blue-500/15 text-blue-200",
+  },
+  {
+    name: "X",
+    href: "https://x.com/sajjadsoykot",
+    icon: FaTwitter,
+    className: "border-sky-400/30 bg-sky-500/15 text-sky-200",
+  },
+  {
+    name: "Facebook",
+    href: "https://fb.com/sajjadhossainsoykot",
+    icon: FaFacebookF,
+    className: "border-blue-500/30 bg-blue-600/15 text-blue-200",
+  },
+  {
+    name: "Instagram",
+    href: "https://instagram.com/sajjad_hossain_soykot",
+    icon: FaInstagram,
+    className: "border-pink-400/30 bg-pink-500/15 text-pink-200",
+  },
+  {
+    name: "YouTube",
+    href: "https://www.youtube.com/c/sajjadhossainsoykot",
+    icon: FaYoutube,
+    className: "border-red-400/30 bg-red-500/15 text-red-200",
+  },
+  {
+    name: "Codeforces",
+    href: "https://codeforces.com/profile/sajjadsoykot",
+    icon: SiCodeforces,
+    className: "border-cyan-400/30 bg-cyan-500/15 text-cyan-200",
+  },
+  {
+    name: "Discord",
+    href: "https://discord.gg/bfuyjQk",
+    icon: FaDiscord,
+    className: "border-indigo-400/30 bg-indigo-500/15 text-indigo-200",
+  },
+];
 
 export default function AboutPage() {
   return (
@@ -17,46 +80,8 @@ export default function AboutPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 pb-20">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/5 p-6">
-            <div className="mb-5 flex items-center gap-3">
-              <div className="rounded-2xl bg-cyan-400/10 p-3">
-                <UserRound className="h-6 w-6 text-cyan-300" />
-              </div>
-
-              <div>
-                <p className="text-sm text-cyan-200">Developer</p>
-                <h2 className="text-2xl font-bold text-white">
-                  Sajjad Hossain Soykot
-                </h2>
-              </div>
-            </div>
-
-            <p className="leading-7 text-slate-300">
-              I am a B.Sc. Engineering student in Information and Communication
-              Technology at Islamic University, Bangladesh. I am interested in
-              programming, frontend development, UI/UX design, web development,
-              research, and building academic technology projects.
-            </p>
-
-            <p className="mt-4 leading-7 text-slate-300">
-              This CryptoGraphy Web Portal was created to transform my
-              Cryptography and Network Security laboratory experiments into an
-              interactive web-based platform. Through this project, I am also
-              learning how to connect a FastAPI backend with a modern Next.js
-              frontend and how to design API-based full-stack applications.
-            </p>
-
-            <a
-              href="https://github.com/SajjadHossainSoykot"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-3 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-400/20"
-            >
-              <ExternalLink className="h-4 w-4" />
-              View GitHub Profile
-            </a>
-          </div>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start">
+          <DeveloperCard />
 
           <div className="grid gap-6">
             <AboutCard
@@ -79,7 +104,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
           <AboutCard
             title="Backend Implementation"
             description="The backend is built with FastAPI and Python. Each algorithm is separated into its own module, and all operations are handled through a unified POST /crypto endpoint. This makes the API simple and easy to connect with the frontend."
@@ -105,6 +130,101 @@ export default function AboutPage() {
   );
 }
 
+function DeveloperCard() {
+  return (
+    <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/5 p-6">
+      <div className="mb-6 flex items-center gap-8">
+        <img
+          src="https://avatars.githubusercontent.com/u/105968856"
+          alt="Sajjad Hossain Soykot"
+          width={132}
+          height={132}
+          className="h-[132px] w-[132px] shrink-0 rounded-3xl border border-cyan-400/40 object-cover p-1 shadow-lg shadow-cyan-950/30"
+        />
+
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-cyan-200">Developer</p>
+
+          <h2 className="mt-1 text-2xl font-bold leading-tight text-white">
+            Sajjad Hossain Soykot
+          </h2>
+
+          <p className="mt-2 text-sm leading-6 text-slate-400">
+            B.Sc. Engineering student · ICT · Islamic University
+          </p>
+
+          <a
+            href="https://github.com/SajjadHossainSoykot"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-400/20"
+          >
+            <ExternalLink className="h-4 w-4" />
+            View GitHub Profile
+          </a>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <p className="text-justify leading-7 text-slate-300">
+          I am a B.Sc. Engineering student in Information and Communication
+          Technology at Islamic University, Bangladesh. I am interested in
+          programming, frontend development, UI/UX design, web development,
+          research, and building academic technology projects.
+        </p>
+
+        <p className="text-justify leading-7 text-slate-300">
+          This CryptoGraphy Web Portal was created to transform my Cryptography
+          and Network Security laboratory experiments into an interactive
+          web-based platform. Through this project, I am also learning how to
+          connect a FastAPI backend with a modern Next.js frontend and how to
+          design API-based full-stack applications.
+        </p>
+      </div>
+
+      <div className="mt-6 rounded-3xl border border-white/10 bg-slate-950/50 p-5">
+        <div className="mb-5">
+          <h3 className="text-xl font-bold text-white">Connect with me</h3>
+          <p className="text-justify mt-1 text-sm text-slate-400">
+            Find my work, profiles, and programming activity here.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {socialLinks.map((link) => {
+            const Icon = link.icon;
+
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition hover:-translate-y-0.5 hover:border-cyan-400/40 hover:bg-cyan-400/10"
+                aria-label={`Visit ${link.name}`}
+              >
+                <span
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-xl ${link.className}`}
+                >
+                  <Icon />
+                </span>
+
+                <span className="flex min-w-0 flex-1 items-center justify-between gap-2">
+                  <span className="truncate text-sm font-semibold text-slate-200 group-hover:text-cyan-100">
+                    {link.name}
+                  </span>
+
+                  <ExternalLink className="h-4 w-4 shrink-0 text-slate-500 group-hover:text-cyan-300" />
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AboutCard({
   icon,
   title,
@@ -123,7 +243,8 @@ function AboutCard({
       ) : null}
 
       <h2 className="mb-3 text-xl font-bold text-white">{title}</h2>
-      <p className="leading-7 text-slate-400">{description}</p>
+
+      <p className="text-justify leading-7 text-slate-400">{description}</p>
     </div>
   );
 }
