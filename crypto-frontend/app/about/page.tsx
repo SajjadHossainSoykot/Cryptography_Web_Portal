@@ -166,28 +166,28 @@ function DeveloperCard() {
       </div>
 
       <div className="space-y-4">
-        <p className="text-justify leading-7 text-slate-300">
+        <JustifiedText className="text-slate-300">
           I am a B.Sc. Engineering student in Information and Communication
           Technology at Islamic University, Bangladesh. I am interested in
           programming, frontend development, UI/UX design, web development,
           research, and building academic technology projects.
-        </p>
+        </JustifiedText>
 
-        <p className="text-justify leading-7 text-slate-300">
+        <JustifiedText className="text-slate-300">
           This CryptoGraphy Web Portal was created to transform my Cryptography
           and Network Security laboratory experiments into an interactive
           web-based platform. Through this project, I am also learning how to
           connect a FastAPI backend with a modern Next.js frontend and how to
           design API-based full-stack applications.
-        </p>
+        </JustifiedText>
       </div>
 
       <div className="mt-6 rounded-3xl border border-white/10 bg-slate-950/50 p-5">
         <div className="mb-5">
           <h3 className="text-xl font-bold text-white">Connect with me</h3>
-          <p className="text-justify mt-1 text-sm text-slate-400">
+          <JustifiedText className="mt-1 text-sm text-slate-400">
             Find my work, profiles, and programming activity here.
-          </p>
+          </JustifiedText>
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -244,7 +244,27 @@ function AboutCard({
 
       <h2 className="mb-3 text-xl font-bold text-white">{title}</h2>
 
-      <p className="text-justify leading-7 text-slate-400">{description}</p>
+      <JustifiedText className="text-slate-400">{description}</JustifiedText>
     </div>
+  );
+}
+
+function JustifiedText({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <p
+      className={`leading-7 ${className}`}
+      style={{
+        textAlign: "justify",
+        textJustify: "inter-word",
+      }}
+    >
+      {children}
+    </p>
   );
 }
