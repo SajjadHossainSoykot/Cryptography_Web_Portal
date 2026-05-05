@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CryptoGraphy Web Portal",
+  title: "CipherXploreSS - An Interactive Cryptography Learning Platform",
   description: "An interactive academic platform for experimenting with classical ciphers and modern cryptographic key exchange algorithms using a FastAPI backend and Next.js frontend.",
 };
 
