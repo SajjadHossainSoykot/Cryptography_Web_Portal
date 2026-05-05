@@ -5,7 +5,7 @@ export function Footer() {
         <p>© 2026 <a href="https://github.com/SajjadHossainSoykot" className="text-cyan-300 hover:text-cyan-200">Sajjad Hossain Soykot</a>. All rights reserved.</p>
 
         <p>
-          CryptoGraphy Web Portal Academic project.
+        This project is based on laboratory experiments from the Cryptography and Network Security course.
         </p>
       </div>
     </footer>
