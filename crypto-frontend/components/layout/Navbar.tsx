@@ -65,7 +65,7 @@ export function Navbar() {
               CipherXploreSS
             </p>
             <p className="max-w-[260px] truncate text-xs text-[var(--muted)]">
-              Explore, Encrypt, Decrypt, and Understand Cryptography.
+              Explore, Encrypt, Decrypt, and Learn Cryptography.
             </p>
           </div>
         </Link>
