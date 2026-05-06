@@ -1,11 +1,10 @@
 import { Download, ExternalLink, FileText } from "lucide-react";
 import { PageHeader } from "../../components/ui/PageHeader";
 
+const localPdfUrl = "/files/CryptographyExperimentsAll.pdf";
+
 const githubPdfUrl =
   "https://github.com/SajjadHossainSoykot/ICT-4110-Cryptography-and-Network-Security-Laboratory/blob/main/Lab%20Report/CryptographyExperimentsAll.pdf";
-
-const rawPdfUrl =
-  "https://raw.githubusercontent.com/SajjadHossainSoykot/ICT-4110-Cryptography-and-Network-Security-Laboratory/main/Lab%20Report/CryptographyExperimentsAll.pdf";
 
 export default function LabReportPage() {
   return (
@@ -24,7 +23,7 @@ export default function LabReportPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-white">
-              Lab Report Source
+              Original Lab Report
             </h2>
 
             <p className="mt-4 leading-7 text-slate-400">
@@ -35,23 +34,32 @@ export default function LabReportPage() {
 
             <div className="mt-6 grid gap-3">
               <a
-                href={githubPdfUrl}
+                href={localPdfUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-cyan-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-300"
               >
                 <ExternalLink className="h-4 w-4" />
-                View on GitHub
+                Open PDF in Browser
               </a>
 
               <a
-                href={rawPdfUrl}
-                target="_blank"
-                rel="noreferrer"
+                href={localPdfUrl}
+                download="CryptographyExperimentsAll.pdf"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-3 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-400/20"
               >
                 <Download className="h-4 w-4" />
-                Open / Download PDF
+                Download PDF
+              </a>
+
+              <a
+                href={githubPdfUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200"
+              >
+                <ExternalLink className="h-4 w-4" />
+                View Source on GitHub
               </a>
             </div>
           </div>
@@ -60,15 +68,30 @@ export default function LabReportPage() {
             <div className="border-b border-white/10 px-5 py-4">
               <h2 className="text-lg font-bold text-white">PDF Preview</h2>
               <p className="mt-1 text-sm text-slate-400">
-                Browser preview of the original lab report.
+                Preview of the local lab report PDF stored inside this project.
               </p>
             </div>
 
-            <iframe
-              src={rawPdfUrl}
+            <object
+              data={localPdfUrl}
+              type="application/pdf"
               className="h-[720px] w-full bg-white"
-              title="Cryptography Lab Report PDF"
-            />
+            >
+              <div className="p-6 text-slate-300">
+                <p className="mb-4">
+                  Your browser cannot preview this PDF directly.
+                </p>
+
+                <a
+                  href={localPdfUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex rounded-full bg-cyan-400 px-5 py-3 text-sm font-bold text-slate-950"
+                >
+                  Open PDF
+                </a>
+              </div>
+            </object>
           </div>
         </div>
       </section>
