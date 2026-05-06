@@ -1,7 +1,7 @@
 "use client";
-
+import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Loader2, Play } from "lucide-react";
+import { BookOpen, Loader2, Play } from "lucide-react";
 import {
   algorithms,
   type Algorithm,
@@ -14,6 +14,7 @@ import { KeyInputPanel } from "../../components/lab/KeyInputPanel";
 import { ApiPreview } from "../../components/lab/ApiPreview";
 import { ResultPanel } from "../../components/lab/ResultPanel";
 import { runCrypto } from "../../lib/api";
+import { VisualizationPanel } from "@/components/lab/VisualizationPanel";
 
 export default function LabPage() {
   const [selectedAlgorithmId, setSelectedAlgorithmId] =
@@ -138,6 +139,16 @@ export default function LabPage() {
                 <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-400">
                   {selectedAlgorithm.description}
                 </p>
+
+                <div className="mt-4">
+                  <Link
+                    href={selectedAlgorithm.route}
+                    className="inline-flex w-fit items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200"
+                  >
+                    <BookOpen className="h-3.5 w-3.5" />
+                    View Theory and Algorithm
+                  </Link>
+                </div>
               </div>
 
               <div className="grid gap-6">
@@ -217,6 +228,14 @@ export default function LabPage() {
               <ApiPreview payload={payload} />
             </aside>
           </div>
+
+          <VisualizationPanel
+            algorithmId={selectedAlgorithm.id}
+            mode={selectedMode}
+            inputText={inputText}
+            keyValues={keyValues}
+            responseData={responseData}
+          />
         </div>
       </section>
     </div>
