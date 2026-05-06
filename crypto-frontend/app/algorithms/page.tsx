@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PageHeader } from "../../components/ui/PageHeader";
-import { algorithms } from "../../data/algorithms";
+import { algorithms, type Algorithm } from "../../data/algorithms";
 
 export default function AlgorithmsPage() {
   const classicalAlgorithms = algorithms.filter(
@@ -12,7 +12,7 @@ export default function AlgorithmsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <PageHeader
         badge="Algorithm Library"
         title="Cryptographic Algorithms"
@@ -39,28 +39,32 @@ function AlgorithmSection({
   algorithms,
 }: {
   title: string;
-  algorithms: typeof import("../../data/algorithms").algorithms;
+  algorithms: Algorithm[];
 }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-      <h2 className="mb-5 text-2xl font-bold text-white">{title}</h2>
+    <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6 shadow-sm">
+      <h2 className="mb-5 text-2xl font-bold text-[var(--foreground)]">
+        {title}
+      </h2>
 
       <div className="grid gap-4">
         {algorithms.map((algorithm) => (
           <Link
             key={algorithm.id}
             href={algorithm.route}
-            className="rounded-2xl border border-white/10 bg-slate-950/70 p-5 transition hover:border-cyan-400/50 hover:bg-slate-900"
+            className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5 transition hover:border-cyan-400/50 hover:bg-cyan-400/10"
           >
             <div className="mb-2 flex items-center justify-between gap-4">
-              <h3 className="font-semibold text-white">{algorithm.name}</h3>
+              <h3 className="font-semibold text-[var(--foreground)]">
+                {algorithm.name}
+              </h3>
 
-              <span className="rounded-full bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200">
+              <span className="rounded-full bg-cyan-400/10 px-3 py-1 text-xs text-cyan-600 dark:text-cyan-200">
                 {algorithm.modes.join(" / ")}
               </span>
             </div>
 
-            <p className="text-sm leading-6 text-slate-400">
+            <p className="text-sm leading-6 text-[var(--muted)]">
               {algorithm.description}
             </p>
           </Link>
