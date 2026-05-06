@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { BookOpen, Loader2, Play } from "lucide-react";
@@ -14,7 +15,7 @@ import { KeyInputPanel } from "../../components/lab/KeyInputPanel";
 import { ApiPreview } from "../../components/lab/ApiPreview";
 import { ResultPanel } from "../../components/lab/ResultPanel";
 import { runCrypto } from "../../lib/api";
-import { VisualizationPanel } from "@/components/lab/VisualizationPanel";
+import { VisualizationPanel } from "../../components/lab/VisualizationPanel";
 
 export default function LabPage() {
   const [selectedAlgorithmId, setSelectedAlgorithmId] =
@@ -101,18 +102,18 @@ export default function LabPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <section className="mx-auto max-w-7xl px-5 py-10">
         <div className="mb-8">
-          <div className="mb-4 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-200">
+          <div className="mb-4 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-600 dark:text-cyan-200">
             Interactive Experiment Area
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+          <h1 className="text-4xl font-bold tracking-tight text-[var(--foreground)] md:text-5xl">
             Interactive Cryptography Lab
           </h1>
 
-          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-400">
+          <p className="mt-4 max-w-3xl text-base leading-7 text-[var(--muted)]">
             Select an algorithm, enter text, customize keys, send requests to
             the FastAPI backend, and view the result instantly.
           </p>
@@ -126,24 +127,24 @@ export default function LabPage() {
           />
 
           <div className="grid gap-6 xl:grid-cols-[1fr_420px]">
-            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+            <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6 shadow-sm">
               <div className="mb-6">
-                <p className="mb-2 text-sm font-medium text-cyan-200">
+                <p className="mb-2 text-sm font-medium text-cyan-600 dark:text-cyan-200">
                   {selectedAlgorithm.category}
                 </p>
 
-                <h2 className="text-3xl font-bold text-white">
+                <h2 className="text-3xl font-bold text-[var(--foreground)]">
                   {selectedAlgorithm.name}
                 </h2>
 
-                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-400">
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-[var(--muted)]">
                   {selectedAlgorithm.description}
                 </p>
 
                 <div className="mt-4">
                   <Link
                     href={selectedAlgorithm.route}
-                    className="inline-flex w-fit items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-200"
+                    className="inline-flex w-fit items-center justify-center gap-1.5 rounded-lg border border-[var(--card-border)] bg-[var(--background)]/40 px-3 py-1.5 text-xs font-medium text-[var(--muted)] transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-600 dark:hover:text-cyan-200"
                   >
                     <BookOpen className="h-3.5 w-3.5" />
                     View Theory and Algorithm
@@ -159,6 +160,7 @@ export default function LabPage() {
                     setSelectedMode(mode);
                     setResult("");
                     setError("");
+                    setResponseData(null);
 
                     if (selectedAlgorithm.id === "diffie_hellman") {
                       setInputText("");
@@ -209,8 +211,9 @@ export default function LabPage() {
                       setInputText("");
                       setResult("");
                       setError("");
+                      setResponseData(null);
                     }}
-                    className="rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="rounded-full border border-[var(--card-border)] px-6 py-3 text-sm font-semibold text-[var(--muted)] transition hover:border-cyan-400/40 hover:text-cyan-600 disabled:cursor-not-allowed disabled:opacity-60 dark:hover:text-cyan-200"
                   >
                     Clear
                   </button>
