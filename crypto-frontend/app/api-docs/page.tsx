@@ -13,7 +13,7 @@ export default function ApiDocsPage() {
         <div className="grid gap-8 lg:grid-cols-2">
           <ApiBlock
             title="Backend Base URL"
-            content={`http://127.0.0.1:8000`}
+            content={`https://cipherxploress-api.onrender.com/`}
           />
 
           <ApiBlock title="Main Endpoint" content={`POST /crypto`} />
