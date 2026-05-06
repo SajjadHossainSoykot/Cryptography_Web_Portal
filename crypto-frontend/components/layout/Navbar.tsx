@@ -16,6 +16,11 @@ const navLinks = [
   {
     label: "Algorithms",
     href: "/algorithms",
+  }
+  ,
+  {
+    label: "Lab Report",
+    href: "/lab-report",
   },
   {
     label: "API Docs",
@@ -24,7 +29,7 @@ const navLinks = [
   {
     label: "About",
     href: "/about",
-  },
+  }
 ];
 
 export function Navbar() {
