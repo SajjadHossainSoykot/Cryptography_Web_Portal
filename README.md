@@ -545,7 +545,7 @@ uvicorn main:app --reload
 
 ## 🚀 Deployment Plan
 
-The project is complete locally. Deployment is the remaining step.
+The project is completed and deployed at https://cipherxplore-ss.vercel.app
 
 Recommended deployment approach:
 
@@ -594,7 +594,7 @@ http://127.0.0.1:8000
 Example deployed backend URL:
 
 ```text
-https://your-backend-service.onrender.com
+https://cipherxploress-api.onrender.com
 ```
 
 This should be stored in an environment variable.
@@ -602,7 +602,7 @@ This should be stored in an environment variable.
 Example:
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=https://your-backend-service.onrender.com
+NEXT_PUBLIC_API_BASE_URL=https://cipherxploress-api.onrender.com
 ```
 
 ---
@@ -612,7 +612,7 @@ NEXT_PUBLIC_API_BASE_URL=https://your-backend-service.onrender.com
 For frontend production deployment, create an environment variable:
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=your_deployed_backend_url
+NEXT_PUBLIC_API_BASE_URL=https://cipherxploress-api.onrender.com
 ```
 
 For local development:
@@ -637,7 +637,7 @@ NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 | Algorithm Documentation | Completed |
 | API Documentation Page | Completed |
 | Responsive Design | Completed |
-| Deployment | Pending |
+| Deployment | Completed |
 
 ---
 
