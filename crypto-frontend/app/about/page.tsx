@@ -137,6 +137,7 @@ function DeveloperCard() {
       <div className="mb-6 flex items-center gap-8">
         <img
           src="https://avatars.githubusercontent.com/u/105968856"
+          // src="favicon.ico"
           alt="Sajjad Hossain Soykot"
           width={132}
           height={132}
