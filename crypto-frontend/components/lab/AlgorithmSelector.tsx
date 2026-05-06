@@ -20,11 +20,13 @@ export function AlgorithmSelector({
   );
 
   return (
-    <section className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+    <section className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-5 shadow-sm">
       <div className="mb-5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 className="text-xl font-bold text-white">Choose Algorithm</h2>
-          <p className="text-sm text-slate-400">
+          <h2 className="text-xl font-bold text-[var(--foreground)]">
+            Choose Algorithm
+          </h2>
+          <p className="text-sm text-[var(--muted)]">
             Select one cipher or key exchange algorithm to test.
           </p>
         </div>
@@ -59,7 +61,7 @@ function AlgorithmGroup({
 }) {
   return (
     <div>
-      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
         {title}
       </p>
 
@@ -74,8 +76,8 @@ function AlgorithmGroup({
               onClick={() => onSelect(algorithm.id)}
               className={
                 isActive
-                  ? "rounded-full border border-cyan-300/70 bg-cyan-400 px-4 py-2 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-950/30"
-                  : "rounded-full border border-white/10 bg-slate-950/70 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:text-cyan-100"
+                  ? "rounded-full border border-cyan-300/70 bg-cyan-400 px-4 py-2 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-950/20"
+                  : "rounded-full border border-[var(--card-border)] bg-[var(--background)]/40 px-4 py-2 text-sm font-medium text-[var(--muted)] transition hover:border-cyan-400/50 hover:bg-cyan-400/10 hover:text-cyan-600 dark:hover:text-cyan-100"
               }
             >
               {algorithm.shortName}
