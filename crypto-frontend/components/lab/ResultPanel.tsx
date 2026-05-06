@@ -12,11 +12,13 @@ export function ResultPanel({
   isLoading,
 }: ResultPanelProps) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+    <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6 shadow-sm">
       <div className="mb-5 flex items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-white">Result</h2>
-          <p className="mt-1 text-sm text-slate-500">
+          <h2 className="text-xl font-bold text-[var(--foreground)]">
+            Result
+          </h2>
+          <p className="mt-1 text-sm text-[var(--muted)]">
             Backend response formatted for the selected algorithm.
           </p>
         </div>
@@ -25,24 +27,24 @@ export function ResultPanel({
           type="button"
           disabled={!result || isLoading}
           onClick={() => navigator.clipboard.writeText(result)}
-          className="rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full border border-[var(--card-border)] px-4 py-2 text-xs font-semibold text-[var(--muted)] transition hover:border-cyan-400/40 hover:text-cyan-600 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:text-cyan-200"
         >
           Copy
         </button>
       </div>
 
       {error ? (
-        <pre className="min-h-40 max-h-80 overflow-auto rounded-2xl border border-red-400/20 bg-red-950/30 p-5 text-sm leading-7 text-red-200">
+        <pre className="min-h-40 max-h-80 overflow-auto rounded-2xl border border-red-400/20 bg-red-500/10 p-5 text-sm leading-7 text-red-600 dark:text-red-200">
           {error}
         </pre>
       ) : isLoading ? (
-        <div className="rounded-2xl border border-white/10 bg-black/40 p-5 text-sm text-slate-300">
+        <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5 text-sm text-[var(--muted)]">
           Running algorithm...
         </div>
       ) : data ? (
         <FormattedResult data={data} />
       ) : (
-        <div className="rounded-2xl border border-white/10 bg-black/40 p-5 text-sm text-slate-400">
+        <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5 text-sm text-[var(--muted)]">
           Result will appear here.
         </div>
       )}
@@ -91,13 +93,13 @@ function PlayfairResult({ response }: { response: Record<string, unknown> }) {
       <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr]">
         <SmallInfo label="Keyword" value={keyword} />
 
-        <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+        <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                 Playfair Key Matrix
               </p>
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-1 text-sm text-[var(--muted)]">
                 5 × 5 matrix generated from the keyword.
               </p>
             </div>
@@ -106,7 +108,7 @@ function PlayfairResult({ response }: { response: Record<string, unknown> }) {
           {matrix.length > 0 ? (
             <MatrixGrid matrix={matrix} />
           ) : (
-            <p className="text-sm text-slate-500">Matrix not returned.</p>
+            <p className="text-sm text-[var(--muted)]">Matrix not returned.</p>
           )}
         </div>
       </div>
@@ -122,15 +124,15 @@ function HillResult({ response }: { response: Record<string, unknown> }) {
     <div className="space-y-5">
       <PrimaryOutput label="Encrypted / Decrypted Output" value={output} />
 
-      <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+      <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
           Hill Key Matrix
         </p>
 
         {matrix.length > 0 ? (
           <MatrixGrid matrix={matrix} />
         ) : (
-          <p className="text-sm text-slate-500">Matrix not returned.</p>
+          <p className="text-sm text-[var(--muted)]">Matrix not returned.</p>
         )}
       </div>
     </div>
@@ -155,7 +157,10 @@ function RSAResult({ result, mode }: { result: unknown; mode: string }) {
       ) : null}
 
       {mode === "keygen" ? (
-        <PrimaryOutput label="Key Generation" value="RSA keys generated successfully." />
+        <PrimaryOutput
+          label="Key Generation"
+          value="RSA keys generated successfully."
+        />
       ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -200,15 +205,15 @@ function DiffieHellmanResult({
             : "rounded-2xl border border-red-400/30 bg-red-400/10 p-5"
         }
       >
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
           Shared Key Status
         </p>
 
         <p
           className={
             matched
-              ? "mt-2 text-3xl font-bold text-emerald-300"
-              : "mt-2 text-3xl font-bold text-red-300"
+              ? "mt-2 text-3xl font-bold text-emerald-600 dark:text-emerald-300"
+              : "mt-2 text-3xl font-bold text-red-600 dark:text-red-300"
           }
         >
           {matched ? "Matched" : "Not Matched"}
@@ -218,8 +223,14 @@ function DiffieHellmanResult({
       <div className="grid gap-4 sm:grid-cols-2">
         <SmallInfo label="Public Key A" value={formatValue(dh.public_key_a)} />
         <SmallInfo label="Public Key B" value={formatValue(dh.public_key_b)} />
-        <HighlightInfo label="Shared Key A" value={formatValue(dh.shared_key_a)} />
-        <HighlightInfo label="Shared Key B" value={formatValue(dh.shared_key_b)} />
+        <HighlightInfo
+          label="Shared Key A"
+          value={formatValue(dh.shared_key_a)}
+        />
+        <HighlightInfo
+          label="Shared Key B"
+          value={formatValue(dh.shared_key_b)}
+        />
       </div>
     </div>
   );
@@ -228,11 +239,11 @@ function DiffieHellmanResult({
 function PrimaryOutput({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-cyan-400/25 bg-cyan-400/10 p-5">
-      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/70">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-200/70">
         {label}
       </p>
 
-      <pre className="overflow-auto whitespace-pre-wrap break-words text-2xl font-bold leading-8 text-cyan-100">
+      <pre className="overflow-auto whitespace-pre-wrap break-words text-2xl font-bold leading-8 text-cyan-700 dark:text-cyan-100">
         {value}
       </pre>
     </div>
@@ -241,12 +252,12 @@ function PrimaryOutput({ label, value }: { label: string; value: string }) {
 
 function SmallInfo({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+    <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
         {label}
       </p>
 
-      <pre className="overflow-auto whitespace-pre-wrap break-words text-base leading-7 text-slate-200">
+      <pre className="overflow-auto whitespace-pre-wrap break-words text-base leading-7 text-[var(--foreground)]">
         {value}
       </pre>
     </div>
@@ -256,11 +267,11 @@ function SmallInfo({ label, value }: { label: string; value: string }) {
 function HighlightInfo({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-cyan-400/25 bg-cyan-400/10 p-5">
-      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/70">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-200/70">
         {label}
       </p>
 
-      <pre className="overflow-auto whitespace-pre-wrap break-words text-2xl font-bold leading-8 text-cyan-100">
+      <pre className="overflow-auto whitespace-pre-wrap break-words text-2xl font-bold leading-8 text-cyan-700 dark:text-cyan-100">
         {value}
       </pre>
     </div>
@@ -281,7 +292,7 @@ function MatrixGrid({ matrix }: { matrix: string[][] }) {
         row.map((cell, columnIndex) => (
           <div
             key={`${rowIndex}-${columnIndex}-${cell}`}
-            className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-100 shadow-sm shadow-cyan-950/20"
+            className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-700 shadow-sm shadow-cyan-950/10 dark:text-cyan-100 dark:shadow-cyan-950/20"
           >
             {cell}
           </div>
@@ -296,16 +307,12 @@ function normalizeMatrix(value: unknown, expectedSize: number): string[][] {
     return [];
   }
 
-  // Case 1: Backend returns nested matrix:
-  // [["M","O","N","A","R"], ["C","H","Y","B","D"], ...]
   if (Array.isArray(value[0])) {
     return value.map((row) =>
       Array.isArray(row) ? row.map((cell) => String(cell)) : []
     );
   }
 
-  // Case 2: Backend returns flat matrix:
-  // ["M","O","N","A","R","C","H",...]
   const flat = value.map((cell) => String(cell));
   const matrix: string[][] = [];
 
