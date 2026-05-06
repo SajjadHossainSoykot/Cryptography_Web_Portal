@@ -88,7 +88,7 @@ export default function AboutPage() {
             <AboutCard
               icon={<GraduationCap className="h-6 w-6 text-violet-500 dark:text-violet-300" />}
               title="Academic Background"
-              description="This project is based on laboratory experiments from the Cryptography and Network Security course. The implemented experiments include Caesar Cipher, Playfair Cipher, Hill Cipher, Vigenère Cipher, Rail Fence Cipher, RSA Algorithm, and Diffie-Hellman Key Exchange."
+              description="This project is based on laboratory experiments from the Cryptography and Network Security course. The implemented experiments include Caesar Cipher, Playfair Cipher, Hill Cipher, Vigenère Cipher, Rail Fence Cipher, RSA Algorithm, and Diffie-Hellman Key Exchange. Special thanks to my course teacher Prof. Dr. Tarek Hasan Al Mahmud for providing the study materials and guidance for this project."
             />
 
             <AboutCard
