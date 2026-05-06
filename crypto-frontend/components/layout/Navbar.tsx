@@ -43,12 +43,12 @@ export function Navbar() {
           <div
             className="shrink-0 overflow-hidden rounded-xl border border-cyan-400/30 bg-cyan-400/10 p-1"
             style={{
-              width: "40px",
-              height: "40px",
+              width: "60px",
+              height: "60px",
             }}
           >
             <img
-              src="https://avatars.githubusercontent.com/u/105968856"
+              src="favicon.ico"
               alt="Sajjad Hossain Soykot"
               style={{
                 width: "100%",
