@@ -16,6 +16,7 @@ import { ApiPreview } from "../../components/lab/ApiPreview";
 import { ResultPanel } from "../../components/lab/ResultPanel";
 import { runCrypto } from "../../lib/api";
 import { VisualizationPanel } from "../../components/lab/VisualizationPanel";
+import { PageHeader } from "../../components/ui/PageHeader";
 
 export default function LabPage() {
   const [selectedAlgorithmId, setSelectedAlgorithmId] =
@@ -103,22 +104,13 @@ export default function LabPage() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <section className="mx-auto max-w-7xl px-5 py-10">
-        <div className="mb-8">
-          <div className="mb-4 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-600 dark:text-cyan-200">
-            Interactive Experiment Area
-          </div>
+      <PageHeader
+        badge="Interactive Experiment Area"
+        title="Interactive Cryptography Lab"
+        description="Select an algorithm, enter text, customize keys, send requests to the FastAPI backend, and view the result instantly."
+      />
 
-          <h1 className="text-4xl font-bold tracking-tight text-[var(--foreground)] md:text-5xl">
-            Interactive Cryptography Lab
-          </h1>
-
-          <p className="mt-4 max-w-3xl text-base leading-7 text-[var(--muted)]">
-            Select an algorithm, enter text, customize keys, send requests to
-            the FastAPI backend, and view the result instantly.
-          </p>
-        </div>
-
+      <section className="mx-auto max-w-7xl px-6 pb-10">
         <div className="grid gap-6">
           <AlgorithmSelector
             algorithms={algorithms}
@@ -228,6 +220,7 @@ export default function LabPage() {
                 error={error}
                 isLoading={isLoading}
               />
+
               <ApiPreview payload={payload} />
             </aside>
           </div>
