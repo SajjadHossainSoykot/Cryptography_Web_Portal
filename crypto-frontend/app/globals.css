@@ -200,3 +200,98 @@ html.light .crypto-symbols {
     animation: none;
   }
 }
+
+.mobile-type-line-1,
+.mobile-type-line-2,
+.typing-full-line {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 4px solid #22d3ee;
+  padding-right: 8px;
+}
+
+.mobile-type-line-1 {
+  display: block;
+  width: 0;
+  animation:
+    mobileTypeLine1 6s steps(20, end) infinite,
+    typingCursor 0.8s step-end infinite;
+}
+
+.mobile-type-line-2 {
+  display: block;
+  width: 0;
+  animation:
+    mobileTypeLine2 6s steps(11, end) infinite,
+    typingCursor 0.8s step-end infinite;
+  animation-delay: 2.2s, 0s;
+}
+
+.typing-full-line {
+  display: block;
+  width: 0;
+  max-width: max-content;
+  animation:
+    typingFullLine 6s steps(31, end) infinite,
+    typingCursor 0.8s step-end infinite;
+}
+
+@keyframes mobileTypeLine1 {
+  0% {
+    width: 0;
+  }
+
+  35% {
+    width: 19ch;
+  }
+
+  70% {
+    width: 19ch;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes mobileTypeLine2 {
+  0% {
+    width: 0;
+  }
+
+  35% {
+    width: 11ch;
+  }
+
+  70% {
+    width: 11ch;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes typingFullLine {
+  0% {
+    width: 0;
+  }
+
+  45% {
+    width: 31ch;
+  }
+
+  75% {
+    width: 31ch;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes typingCursor {
+  50% {
+    border-color: transparent;
+  }
+}
