@@ -13,6 +13,11 @@ from algorithms.diffie_hellman import diffie_hellman
 
 app = FastAPI(title="CryptoGraphy Portal API")
 
+origins = [
+    "http://localhost:3000",
+    "https://cipherxplore-ss.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
