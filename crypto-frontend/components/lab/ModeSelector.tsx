@@ -13,7 +13,7 @@ export function ModeSelector({
 }: ModeSelectorProps) {
   return (
     <div>
-      <label className="mb-3 block text-sm font-semibold text-slate-300">
+      <label className="mb-3 block text-sm font-semibold text-[var(--muted)]">
         Operation Mode
       </label>
 
@@ -29,7 +29,7 @@ export function ModeSelector({
               className={
                 isActive
                   ? "rounded-full bg-cyan-400 px-4 py-2 text-sm font-bold text-slate-950"
-                  : "rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200"
+                  : "rounded-full border border-[var(--card-border)] bg-[var(--card)] px-4 py-2 text-sm font-medium text-[var(--muted)] transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-600 dark:hover:text-cyan-200"
               }
             >
               {mode}
