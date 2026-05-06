@@ -1,0 +1,829 @@
+import type { Algorithm, AlgorithmMode } from "../../data/algorithms";
+
+type VisualizationPanelProps = {
+    algorithmId: Algorithm["id"];
+    mode: AlgorithmMode;
+    inputText: string;
+    keyValues: Record<string, unknown>;
+    responseData: unknown;
+};
+
+export function VisualizationPanel({
+    algorithmId,
+    mode,
+    inputText,
+    keyValues,
+    responseData,
+}: VisualizationPanelProps) {
+    return (
+        <section className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+            <div className="mb-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/70">
+                    Algorithm Visualization
+                </p>
+                <h2 className="mt-2 text-2xl font-bold text-white">
+                    Visual Understanding Panel
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-slate-400">
+                    A visual explanation for the currently selected algorithm.
+                </p>
+            </div>
+
+            {algorithmId === "caesar" ? (
+                <CaesarVisualization inputText={inputText} keyValues={keyValues} />
+            ) : null}
+
+            {algorithmId === "playfair" ? (
+                <PlayfairVisualization
+                    inputText={inputText}
+                    keyValues={keyValues}
+                    responseData={responseData}
+                />
+            ) : null}
+
+            {algorithmId === "hill" ? (
+                <HillVisualization inputText={inputText} keyValues={keyValues} />
+            ) : null}
+
+            {algorithmId === "vigenere" ? (
+                <VigenereVisualization
+                    inputText={inputText}
+                    keyValues={keyValues}
+                    responseData={responseData}
+                />
+            ) : null}
+
+            {algorithmId === "rail_fence" ? (
+                <RailFenceVisualization inputText={inputText} keyValues={keyValues} />
+            ) : null}
+
+            {algorithmId === "rsa" ? (
+                <RSAVisualization
+                    mode={mode}
+                    keyValues={keyValues}
+                    responseData={responseData}
+                />
+            ) : null}
+
+            {algorithmId === "diffie_hellman" ? (
+                <DiffieHellmanVisualization
+                    keyValues={keyValues}
+                    responseData={responseData}
+                />
+            ) : null}
+        </section>
+    );
+}
+
+/* ---------------------------------- */
+/* Caesar */
+/* ---------------------------------- */
+
+function CaesarVisualization({
+    inputText,
+    keyValues,
+}: {
+    inputText: string;
+    keyValues: Record<string, unknown>;
+}) {
+    const shift = normalizeShift(Number(keyValues.shift ?? 3));
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    const shiftedAlphabet = alphabet.map(
+        (_, index) => alphabet[(index + shift) % 26]
+    );
+
+    const letters = cleanLetters(inputText).slice(0, 16).split("");
+    const mapping = letters.map((letter) => {
+        const index = alphabet.indexOf(letter);
+        return {
+            from: letter,
+            to: index >= 0 ? shiftedAlphabet[index] : letter,
+        };
+    });
+
+    return (
+        <div className="space-y-6">
+            <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+                <InfoCard label="Shift Key" value={String(shift)} highlight />
+                <InfoCard
+                    label="Example Mapping"
+                    value={mapping.length > 0 ? mapping.map((m) => `${m.from} → ${m.to}`).join("   ") : "Enter text to preview"}
+                />
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Alphabet Shift Preview
+                </p>
+
+                <div className="grid gap-3">
+                    <AlphabetRow label="Plain" letters={alphabet} />
+                    <AlphabetRow label="Shift" letters={shiftedAlphabet} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ---------------------------------- */
+/* Playfair */
+/* ---------------------------------- */
+
+function PlayfairVisualization({
+    inputText,
+    keyValues,
+    responseData,
+}: {
+    inputText: string;
+    keyValues: Record<string, unknown>;
+    responseData: unknown;
+}) {
+    const keyword = String(keyValues.keyword ?? "MONARCHY");
+    const response = asRecord(responseData);
+    const resultObject = asRecord(response?.result);
+
+    const rawMatrix = response?.matrix ?? resultObject?.matrix;
+
+    const responseMatrix = normalizeMatrix(rawMatrix, 5);
+
+    const matrix =
+        responseMatrix.length > 0 ? responseMatrix : buildPlayfairMatrix(keyword);
+
+    const digraphs = buildPlayfairDigraphs(inputText);
+
+    return (
+        <div className="space-y-6">
+            <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+                <InfoCard label="Keyword" value={keyword} highlight />
+
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        Digraph Preparation
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                        {digraphs.length > 0 ? (
+                            digraphs.map((pair, index) => (
+                                <span
+                                    key={`${pair}-${index}`}
+                                    className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-100"
+                                >
+                                    {pair}
+                                </span>
+                            ))
+                        ) : (
+                            <span className="text-sm text-slate-500">
+                                Enter text to see digraphs.
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Playfair 5 × 5 Matrix
+                </p>
+
+                <MatrixGrid matrix={matrix} />
+            </div>
+        </div>
+    );
+}
+
+/* ---------------------------------- */
+/* Hill */
+/* ---------------------------------- */
+
+function HillVisualization({
+    inputText,
+    keyValues,
+}: {
+    inputText: string;
+    keyValues: Record<string, unknown>;
+}) {
+    const matrix = normalizeNumberMatrix(keyValues.matrix, 2);
+    const text = cleanLetters(inputText);
+    const blocks = chunkText(text.length % 2 === 0 ? text : `${text}X`, 2);
+
+    return (
+        <div className="space-y-6">
+            <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        2 × 2 Key Matrix
+                    </p>
+
+                    <NumberMatrixGrid matrix={matrix} />
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        Plaintext Blocks
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                        {blocks.length > 0 ? (
+                            blocks.map((block, index) => (
+                                <span
+                                    key={`${block}-${index}`}
+                                    className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-100"
+                                >
+                                    {block}
+                                </span>
+                            ))
+                        ) : (
+                            <span className="text-sm text-slate-500">
+                                Enter text to create blocks.
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ---------------------------------- */
+/* Vigenere */
+/* ---------------------------------- */
+
+function VigenereVisualization({
+    inputText,
+    keyValues,
+    responseData,
+}: {
+    inputText: string;
+    keyValues: Record<string, unknown>;
+    responseData: unknown;
+}) {
+    const keyword = String(keyValues.keyword ?? "KEY").toUpperCase();
+    const plain = cleanLetters(inputText).slice(0, 20);
+    const repeatedKey = repeatKeyword(keyword, plain.length);
+
+    const response = asRecord(responseData);
+    const output =
+        typeof response?.result === "string"
+            ? response.result.toUpperCase().slice(0, 20)
+            : "";
+
+    return (
+        <div className="space-y-6">
+            <InfoCard label="Keyword" value={keyword} highlight />
+
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Repeated Keyword Table
+                </p>
+
+                <div className="space-y-3 overflow-x-auto">
+                    <CharRow label="Text" value={plain} />
+                    <CharRow label="Key" value={repeatedKey} />
+                    {output ? <CharRow label="Output" value={output} highlight /> : null}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ---------------------------------- */
+/* Rail Fence */
+/* ---------------------------------- */
+
+function RailFenceVisualization({
+    inputText,
+    keyValues,
+}: {
+    inputText: string;
+    keyValues: Record<string, unknown>;
+}) {
+    const depth = Number(keyValues.depth ?? 3);
+    const text = cleanLetters(inputText).slice(0, 40);
+
+    const rails = buildRailFenceGrid(text, depth);
+
+    return (
+        <div className="space-y-6">
+            <InfoCard label="Rail Depth" value={String(depth)} highlight />
+
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Zigzag Rail Pattern
+                </p>
+
+                {rails.length > 0 ? (
+                    <div className="overflow-x-auto">
+                        <div className="inline-grid gap-2">
+                            {rails.map((row, rowIndex) => (
+                                <div key={`rail-${rowIndex}`} className="flex gap-2">
+                                    {row.map((cell, cellIndex) => (
+                                        <div
+                                            key={`${rowIndex}-${cellIndex}`}
+                                            className={
+                                                cell
+                                                    ? "flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-100"
+                                                    : "h-9 w-9 rounded-lg border border-white/5 bg-white/[0.02]"
+                                            }
+                                        >
+                                            {cell || ""}
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <p className="text-sm text-slate-500">
+                        Enter text to visualize the zigzag rails.
+                    </p>
+                )}
+            </div>
+        </div>
+    );
+}
+
+/* ---------------------------------- */
+/* RSA */
+/* ---------------------------------- */
+
+function RSAVisualization({
+    mode,
+    keyValues,
+    responseData,
+}: {
+    mode: AlgorithmMode;
+    keyValues: Record<string, unknown>;
+    responseData: unknown;
+}) {
+    const response = asRecord(responseData);
+    const result = asRecord(response?.result);
+
+    const p = keyValues.p;
+    const q = keyValues.q;
+    const e = keyValues.e;
+
+    const cipher =
+        Array.isArray(result?.cipher) ? result?.cipher : [];
+    const plain =
+        typeof result?.plain === "string" ? result.plain : "";
+
+    return (
+        <div className="space-y-6">
+            <div className="grid gap-4 sm:grid-cols-3">
+                <InfoCard label="Prime p" value={String(p ?? "")} />
+                <InfoCard label="Prime q" value={String(q ?? "")} />
+                <InfoCard label="Exponent e" value={String(e ?? "")} />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+                {"public_key" in (result ?? {}) ? (
+                    <InfoCard
+                        label="Public Key"
+                        value={formatValue(result?.public_key)}
+                        highlight
+                    />
+                ) : null}
+
+                {"private_key" in (result ?? {}) ? (
+                    <InfoCard
+                        label="Private Key"
+                        value={formatValue(result?.private_key)}
+                    />
+                ) : null}
+
+                {"n" in (result ?? {}) ? (
+                    <InfoCard label="n" value={formatValue(result?.n)} />
+                ) : null}
+
+                {"phi" in (result ?? {}) ? (
+                    <InfoCard label="phi(n)" value={formatValue(result?.phi)} />
+                ) : null}
+            </div>
+
+            {mode === "encrypt" && cipher.length > 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                        Cipher Array
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                        {cipher.map((item, index) => (
+                            <span
+                                key={`${item}-${index}`}
+                                className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-100"
+                            >
+                                {String(item)}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            ) : null}
+
+            {mode === "decrypt" && plain ? (
+                <InfoCard label="Recovered Plain Text" value={plain} highlight />
+            ) : null}
+        </div>
+    );
+}
+
+/* ---------------------------------- */
+/* Diffie-Hellman */
+/* ---------------------------------- */
+
+function DiffieHellmanVisualization({
+    keyValues,
+    responseData,
+}: {
+    keyValues: Record<string, unknown>;
+    responseData: unknown;
+}) {
+    const response = asRecord(responseData);
+    const result = asRecord(response?.result);
+
+    const p = String(keyValues.p ?? "");
+    const g = String(keyValues.g ?? "");
+    const a = String(keyValues.a ?? "");
+    const b = String(keyValues.b ?? "");
+
+    const publicKeyA = formatValue(result?.public_key_a);
+    const publicKeyB = formatValue(result?.public_key_b);
+    const sharedKeyA = formatValue(result?.shared_key_a);
+    const sharedKeyB = formatValue(result?.shared_key_b);
+
+    return (
+        <div className="space-y-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <InfoCard label="Prime p" value={p} />
+                <InfoCard label="Primitive Root g" value={g} />
+                <InfoCard label="Private Key A" value={a} />
+                <InfoCard label="Private Key B" value={b} />
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr]">
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="mb-4 text-sm font-bold text-white">User A</p>
+                    <div className="space-y-3">
+                        <MiniInfo label="Private Key" value={a} />
+                        <MiniInfo label="Public Key" value={publicKeyA} />
+                        <MiniInfo label="Shared Key" value={sharedKeyA} highlight />
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-center text-cyan-200">
+                    <div className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold">
+                        Exchange Public Keys
+                    </div>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="mb-4 text-sm font-bold text-white">User B</p>
+                    <div className="space-y-3">
+                        <MiniInfo label="Private Key" value={b} />
+                        <MiniInfo label="Public Key" value={publicKeyB} />
+                        <MiniInfo label="Shared Key" value={sharedKeyB} highlight />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ---------------------------------- */
+/* Shared UI */
+/* ---------------------------------- */
+
+function InfoCard({
+    label,
+    value,
+    highlight = false,
+}: {
+    label: string;
+    value: string;
+    highlight?: boolean;
+}) {
+    return (
+        <div
+            className={
+                highlight
+                    ? "rounded-2xl border border-cyan-400/25 bg-cyan-400/10 p-5"
+                    : "rounded-2xl border border-white/10 bg-black/30 p-5"
+            }
+        >
+            <p
+                className={
+                    highlight
+                        ? "mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/70"
+                        : "mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500"
+                }
+            >
+                {label}
+            </p>
+
+            <pre
+                className={
+                    highlight
+                        ? "overflow-auto whitespace-pre-wrap break-words text-lg font-bold leading-7 text-cyan-100"
+                        : "overflow-auto whitespace-pre-wrap break-words text-base leading-7 text-slate-200"
+                }
+            >
+                {value}
+            </pre>
+        </div>
+    );
+}
+
+function MiniInfo({
+    label,
+    value,
+    highlight = false,
+}: {
+    label: string;
+    value: string;
+    highlight?: boolean;
+}) {
+    return (
+        <div
+            className={
+                highlight
+                    ? "rounded-xl border border-cyan-400/25 bg-cyan-400/10 p-4"
+                    : "rounded-xl border border-white/10 bg-slate-950/70 p-4"
+            }
+        >
+            <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                {label}
+            </p>
+            <p
+                className={
+                    highlight
+                        ? "text-lg font-bold text-cyan-100"
+                        : "text-base text-slate-200"
+                }
+            >
+                {value}
+            </p>
+        </div>
+    );
+}
+
+function AlphabetRow({
+    label,
+    letters,
+}: {
+    label: string;
+    letters: string[];
+}) {
+    return (
+        <div className="overflow-x-auto">
+            <div className="flex min-w-max items-center gap-2">
+                <span className="w-14 text-sm font-semibold text-slate-400">
+                    {label}
+                </span>
+
+                {letters.map((letter, index) => (
+                    <span
+                        key={`${label}-${letter}-${index}`}
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-slate-950/70 text-sm font-semibold text-slate-200"
+                    >
+                        {letter}
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function MatrixGrid({ matrix }: { matrix: string[][] }) {
+    const columnCount = matrix[0]?.length ?? 5;
+
+    return (
+        <div
+            className="grid max-w-sm gap-2"
+            style={{
+                gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+            }}
+        >
+            {matrix.map((row, rowIndex) =>
+                row.map((cell, columnIndex) => (
+                    <div
+                        key={`${rowIndex}-${columnIndex}-${cell}`}
+                        className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-100"
+                    >
+                        {cell}
+                    </div>
+                ))
+            )}
+        </div>
+    );
+}
+
+function NumberMatrixGrid({ matrix }: { matrix: number[][] }) {
+    const columnCount = matrix[0]?.length ?? 2;
+
+    return (
+        <div
+            className="grid max-w-[180px] gap-2"
+            style={{
+                gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+            }}
+        >
+            {matrix.map((row, rowIndex) =>
+                row.map((cell, columnIndex) => (
+                    <div
+                        key={`${rowIndex}-${columnIndex}-${cell}`}
+                        className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-100"
+                    >
+                        {cell}
+                    </div>
+                ))
+            )}
+        </div>
+    );
+}
+
+function CharRow({
+    label,
+    value,
+    highlight = false,
+}: {
+    label: string;
+    value: string;
+    highlight?: boolean;
+}) {
+    return (
+        <div className="flex min-w-max items-center gap-2">
+            <span className="w-16 text-sm font-semibold text-slate-400">{label}</span>
+
+            {value.split("").map((char, index) => (
+                <span
+                    key={`${label}-${char}-${index}`}
+                    className={
+                        highlight
+                            ? "flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-100"
+                            : "flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-950/70 text-sm font-semibold text-slate-200"
+                    }
+                >
+                    {char}
+                </span>
+            ))}
+        </div>
+    );
+}
+
+/* ---------------------------------- */
+/* Helpers */
+/* ---------------------------------- */
+
+function normalizeShift(shift: number) {
+    return ((shift % 26) + 26) % 26;
+}
+
+function cleanLetters(text: string) {
+    return text.toUpperCase().replace(/[^A-Z]/g, "");
+}
+
+function chunkText(text: string, size: number) {
+    const chunks: string[] = [];
+
+    for (let i = 0; i < text.length; i += size) {
+        chunks.push(text.slice(i, i + size));
+    }
+
+    return chunks;
+}
+
+function repeatKeyword(keyword: string, length: number) {
+    if (!keyword) return "";
+
+    let result = "";
+
+    while (result.length < length) {
+        result += keyword;
+    }
+
+    return result.slice(0, length);
+}
+
+function buildPlayfairDigraphs(text: string) {
+    const cleaned = cleanLetters(text).replace(/J/g, "I");
+    const pairs: string[] = [];
+    let index = 0;
+
+    while (index < cleaned.length) {
+        const first = cleaned[index];
+        const second = cleaned[index + 1];
+
+        if (!second) {
+            pairs.push(`${first}X`);
+            index += 1;
+        } else if (first === second) {
+            pairs.push(`${first}X`);
+            index += 1;
+        } else {
+            pairs.push(`${first}${second}`);
+            index += 2;
+        }
+    }
+
+    return pairs;
+}
+
+function buildPlayfairMatrix(keyword: string) {
+    const base = `${keyword.toUpperCase().replace(/J/g, "I")}ABCDEFGHIKLMNOPQRSTUVWXYZ`;
+    const unique: string[] = [];
+
+    for (const char of base) {
+        if (!/[A-Z]/.test(char)) continue;
+        if (!unique.includes(char)) unique.push(char);
+    }
+
+    return Array.from({ length: 5 }, (_, rowIndex) =>
+        unique.slice(rowIndex * 5, rowIndex * 5 + 5)
+    );
+}
+
+function buildRailFenceGrid(text: string, depth: number) {
+    if (!text || depth < 2) {
+        return text ? [text.split("")] : [];
+    }
+
+    const rails = Array.from({ length: depth }, () =>
+        Array.from({ length: text.length }, () => "")
+    );
+
+    let row = 0;
+    let direction = 1;
+
+    for (let col = 0; col < text.length; col += 1) {
+        rails[row][col] = text[col];
+
+        if (row === 0) {
+            direction = 1;
+        } else if (row === depth - 1) {
+            direction = -1;
+        }
+
+        row += direction;
+    }
+
+    return rails;
+}
+
+function normalizeMatrix(value: unknown, expectedSize: number) {
+    if (!Array.isArray(value)) {
+        return [];
+    }
+
+    if (Array.isArray(value[0])) {
+        return value.map((row) =>
+            Array.isArray(row) ? row.map((cell) => String(cell)) : []
+        );
+    }
+
+    const flat = value.map((cell) => String(cell));
+    const matrix: string[][] = [];
+
+    for (let i = 0; i < flat.length; i += expectedSize) {
+        matrix.push(flat.slice(i, i + expectedSize));
+    }
+
+    return matrix;
+}
+
+function normalizeNumberMatrix(value: unknown, expectedSize: number) {
+    if (
+        Array.isArray(value) &&
+        Array.isArray(value[0]) &&
+        value.every((row) => Array.isArray(row))
+    ) {
+        return (value as unknown[][]).map((row) =>
+            row.map((cell) => Number(cell))
+        );
+    }
+
+    if (expectedSize === 2) {
+        return [
+            [3, 3],
+            [2, 5],
+        ];
+    }
+
+    return [];
+}
+
+function asRecord(value: unknown) {
+    return value && typeof value === "object"
+        ? (value as Record<string, unknown>)
+        : null;
+}
+
+function formatValue(value: unknown) {
+    if (value === undefined || value === null) {
+        return "";
+    }
+
+    if (typeof value === "string") {
+        return value;
+    }
+
+    return JSON.stringify(value, null, 2);
+}
