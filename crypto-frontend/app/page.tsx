@@ -24,7 +24,7 @@ export default function HomePage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            CryptoGraphy Web Portal is an interactive academic platform for
+            CipherXploreSS Web Portal is an interactive academic platform for
             experimenting with classical ciphers and modern cryptographic key
             exchange algorithms using a FastAPI backend and Next.js frontend.
           </p>
@@ -84,7 +84,7 @@ export default function HomePage() {
                 <h2 className="font-semibold text-white">Backend Powered</h2>
               </div>
               <p className="text-sm leading-6 text-slate-400">
-                All crypto operations will be processed by your existing FastAPI
+                All crypto operations will be processed by FastAPI
                 backend through the unified POST /crypto endpoint.
               </p>
             </div>
