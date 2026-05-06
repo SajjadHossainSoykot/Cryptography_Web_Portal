@@ -24,7 +24,7 @@ export function TextInputPanel({
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-semibold text-slate-300">
+      <label className="mb-2 block text-sm font-semibold text-[var(--muted)]">
         Input Text
       </label>
 
@@ -36,11 +36,11 @@ export function TextInputPanel({
           isSpecialMode ? "No text input required for this mode." : placeholder
         }
         rows={5}
-        className="w-full resize-none rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-4 text-sm leading-6 text-slate-100 outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full resize-none rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 px-4 py-4 text-sm leading-6 text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)] focus:border-cyan-400/60 disabled:cursor-not-allowed disabled:opacity-60"
       />
 
       {algorithmId === "rsa" && mode === "decrypt" ? (
-        <p className="mt-2 text-xs text-amber-300">
+        <p className="mt-2 text-xs text-amber-600 dark:text-amber-300">
           Enter comma-separated RSA cipher numbers.
         </p>
       ) : null}
