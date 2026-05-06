@@ -6,7 +6,13 @@ This project transforms academic cryptography laboratory experiments into a mode
 
 ---
 
-## 🔗 Repository
+## 🔗Links
+
+Live Website:  
+https://cipherxplore-ss.vercel.app
+
+Live API:  
+https://cipherxploress-api.onrender.com/
 
 Main Repository:  
 https://github.com/SajjadHossainSoykot/Cryptography_Web_Portal
