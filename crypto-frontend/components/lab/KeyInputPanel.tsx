@@ -13,11 +13,11 @@ export function KeyInputPanel({
 }: KeyInputPanelProps) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-semibold text-slate-300">
+      <label className="mb-2 block text-sm font-semibold text-[var(--muted)]">
         Key Settings
       </label>
 
-      <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+      <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-4">
         {algorithm.id === "caesar" ? (
           <NumberInput
             label="Shift"
@@ -122,14 +122,14 @@ function TextInput({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
+      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--muted)]">
         {label}
       </label>
 
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60"
+        className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--card)] px-3 py-2.5 text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)] focus:border-cyan-400/60"
       />
     </div>
   );
@@ -146,7 +146,7 @@ function NumberInput({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
+      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--muted)]">
         {label}
       </label>
 
@@ -154,7 +154,7 @@ function NumberInput({
         type="number"
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60"
+        className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--card)] px-3 py-2.5 text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)] focus:border-cyan-400/60"
       />
     </div>
   );
@@ -175,7 +175,7 @@ function HillMatrixInput({
 
   return (
     <div>
-      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--muted)]">
         2x2 Matrix
       </p>
 
@@ -189,13 +189,13 @@ function HillMatrixInput({
               onChange={(event) =>
                 updateMatrix(rowIndex, colIndex, Number(event.target.value))
               }
-              className="rounded-xl border border-white/10 bg-black/30 px-3 py-2.5 text-center text-sm text-slate-100 outline-none transition focus:border-cyan-400/60"
+              className="rounded-xl border border-[var(--card-border)] bg-[var(--card)] px-3 py-2.5 text-center text-sm text-[var(--foreground)] outline-none transition focus:border-cyan-400/60"
             />
           ))
         )}
       </div>
 
-      <p className="mt-2 text-xs text-slate-500">
+      <p className="mt-2 text-xs text-[var(--muted)]">
         Matrix must be invertible modulo 26.
       </p>
     </div>
