@@ -37,7 +37,7 @@ export function Navbar() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/95 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-[var(--card-border)] bg-[var(--background)] backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
         <Link href="/" className="flex min-w-0 items-center gap-3">
           <div
@@ -61,10 +61,10 @@ export function Navbar() {
           </div>
 
           <div className="min-w-0">
-            <p className="truncate text-sm font-bold tracking-wide text-white">
+            <p className="truncate text-sm font-bold tracking-wide text-[var(--foreground)]">
               CipherXploreSS
             </p>
-            <p className="max-w-[260px] truncate text-xs text-slate-400">
+            <p className="max-w-[260px] truncate text-xs text-[var(--muted)]">
               Explore, Encrypt, Decrypt, and Understand Cryptography.
             </p>
           </div>
@@ -75,7 +75,7 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-slate-300 transition hover:text-cyan-300"
+              className="text-sm font-medium text-[var(--muted)] transition hover:text-cyan-500 dark:hover:text-cyan-300"
             >
               {link.label}
             </Link>
@@ -86,7 +86,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-200"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--card-border)] bg-[var(--card)] text-[var(--muted)] transition hover:border-cyan-400/40 hover:text-cyan-500 dark:hover:text-cyan-200"
             aria-label="Toggle dark and light mode"
             title="Toggle theme"
           >
@@ -99,7 +99,7 @@ export function Navbar() {
 
           <Link
             href="/lab"
-            className="rounded-full border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-400/20"
+            className="rounded-full border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-600 transition hover:bg-cyan-400/20 dark:text-cyan-200"
           >
             Start Lab
           </Link>
@@ -109,7 +109,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-200 transition hover:border-cyan-400/40 hover:text-cyan-200"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--card-border)] bg-[var(--card)] text-[var(--muted)] transition hover:border-cyan-400/40 hover:text-cyan-500 dark:hover:text-cyan-200"
             aria-label="Toggle dark and light mode"
             title="Toggle theme"
           >
@@ -123,7 +123,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setIsOpen((value) => !value)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-200 transition hover:border-cyan-400/40 hover:text-cyan-200"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--card-border)] bg-[var(--card)] text-[var(--muted)] transition hover:border-cyan-400/40 hover:text-cyan-500 dark:hover:text-cyan-200"
             aria-label="Toggle navigation menu"
           >
             {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -132,14 +132,14 @@ export function Navbar() {
       </div>
 
       {isOpen ? (
-        <div className="border-t border-white/10 bg-slate-950 px-5 py-4 lg:hidden">
+        <div className="border-t border-[var(--card-border)] bg-[var(--background)] px-5 py-4 lg:hidden">
           <nav className="mx-auto grid max-w-7xl gap-3">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-slate-200 transition hover:border-cyan-400/40 hover:text-cyan-200"
+                className="rounded-2xl border border-[var(--card-border)] bg-[var(--card)] px-4 py-3 text-sm font-medium text-[var(--foreground)] transition hover:border-cyan-400/40 hover:text-cyan-500 dark:hover:text-cyan-200"
               >
                 {link.label}
               </Link>
