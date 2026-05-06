@@ -16,15 +16,15 @@ export function VisualizationPanel({
     responseData,
 }: VisualizationPanelProps) {
     return (
-        <section className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+        <section className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6">
             <div className="mb-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/70">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-700 dark:text-cyan-200/70">
                     Algorithm Visualization
                 </p>
-                <h2 className="mt-2 text-2xl font-bold text-white">
+                <h2 className="mt-2 text-2xl font-bold text-[var(--foreground)]">
                     Visual Understanding Panel
                 </h2>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
+                <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
                     A visual explanation for the currently selected algorithm.
                 </p>
             </div>
@@ -111,8 +111,8 @@ function CaesarVisualization({
                 />
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                     Alphabet Shift Preview
                 </p>
 
@@ -156,8 +156,8 @@ function PlayfairVisualization({
             <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
                 <InfoCard label="Keyword" value={keyword} highlight />
 
-                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         Digraph Preparation
                     </p>
 
@@ -166,13 +166,13 @@ function PlayfairVisualization({
                             digraphs.map((pair, index) => (
                                 <span
                                     key={`${pair}-${index}`}
-                                    className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-100"
+                                    className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-700 dark:text-cyan-100"
                                 >
                                     {pair}
                                 </span>
                             ))
                         ) : (
-                            <span className="text-sm text-slate-500">
+                            <span className="text-sm text-[var(--muted)]">
                                 Enter text to see digraphs.
                             </span>
                         )}
@@ -180,8 +180,8 @@ function PlayfairVisualization({
                 </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                     Playfair 5 × 5 Matrix
                 </p>
 
@@ -209,16 +209,16 @@ function HillVisualization({
     return (
         <div className="space-y-6">
             <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         2 × 2 Key Matrix
                     </p>
 
                     <NumberMatrixGrid matrix={matrix} />
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         Plaintext Blocks
                     </p>
 
@@ -227,13 +227,13 @@ function HillVisualization({
                             blocks.map((block, index) => (
                                 <span
                                     key={`${block}-${index}`}
-                                    className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-100"
+                                    className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-700 dark:text-cyan-100"
                                 >
                                     {block}
                                 </span>
                             ))
                         ) : (
-                            <span className="text-sm text-slate-500">
+                            <span className="text-sm text-[var(--muted)]">
                                 Enter text to create blocks.
                             </span>
                         )}
@@ -271,8 +271,8 @@ function VigenereVisualization({
         <div className="space-y-6">
             <InfoCard label="Keyword" value={keyword} highlight />
 
-            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                     Repeated Keyword Table
                 </p>
 
@@ -306,8 +306,8 @@ function RailFenceVisualization({
         <div className="space-y-6">
             <InfoCard label="Rail Depth" value={String(depth)} highlight />
 
-            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                     Zigzag Rail Pattern
                 </p>
 
@@ -321,8 +321,8 @@ function RailFenceVisualization({
                                             key={`${rowIndex}-${cellIndex}`}
                                             className={
                                                 cell
-                                                    ? "flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-100"
-                                                    : "h-9 w-9 rounded-lg border border-white/5 bg-white/[0.02]"
+                                                    ? "flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-700 dark:text-cyan-100"
+                                                    : "h-9 w-9 rounded-lg border border-[var(--card-border)] bg-[var(--card)]"
                                             }
                                         >
                                             {cell || ""}
@@ -333,7 +333,7 @@ function RailFenceVisualization({
                         </div>
                     </div>
                 ) : (
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-[var(--muted)]">
                         Enter text to visualize the zigzag rails.
                     </p>
                 )}
@@ -401,8 +401,8 @@ function RSAVisualization({
             </div>
 
             {mode === "encrypt" && cipher.length > 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         Cipher Array
                     </p>
 
@@ -410,7 +410,7 @@ function RSAVisualization({
                         {cipher.map((item, index) => (
                             <span
                                 key={`${item}-${index}`}
-                                className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-100"
+                                className="rounded-xl border border-cyan-400/25 bg-cyan-400/10 px-3 py-2 text-sm font-semibold text-cyan-700 dark:text-cyan-100"
                             >
                                 {String(item)}
                             </span>
@@ -460,8 +460,8 @@ function DiffieHellmanVisualization({
             </div>
 
             <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr]">
-                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                    <p className="mb-4 text-sm font-bold text-white">User A</p>
+                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                    <p className="mb-4 text-sm font-bold text-[var(--foreground)]">User A</p>
                     <div className="space-y-3">
                         <MiniInfo label="Private Key" value={a} />
                         <MiniInfo label="Public Key" value={publicKeyA} />
@@ -469,14 +469,14 @@ function DiffieHellmanVisualization({
                     </div>
                 </div>
 
-                <div className="flex items-center justify-center text-cyan-200">
+                <div className="flex items-center justify-center text-cyan-700 dark:text-cyan-200">
                     <div className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold">
                         Exchange Public Keys
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
-                    <p className="mb-4 text-sm font-bold text-white">User B</p>
+                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                    <p className="mb-4 text-sm font-bold text-[var(--foreground)]">User B</p>
                     <div className="space-y-3">
                         <MiniInfo label="Private Key" value={b} />
                         <MiniInfo label="Public Key" value={publicKeyB} />
@@ -506,14 +506,14 @@ function InfoCard({
             className={
                 highlight
                     ? "rounded-2xl border border-cyan-400/25 bg-cyan-400/10 p-5"
-                    : "rounded-2xl border border-white/10 bg-black/30 p-5"
+                    : "rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5"
             }
         >
             <p
                 className={
                     highlight
-                        ? "mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200/70"
-                        : "mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500"
+                        ? "mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-700 dark:text-cyan-200/70"
+                        : "mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]"
                 }
             >
                 {label}
@@ -522,8 +522,8 @@ function InfoCard({
             <pre
                 className={
                     highlight
-                        ? "overflow-auto whitespace-pre-wrap break-words text-lg font-bold leading-7 text-cyan-100"
-                        : "overflow-auto whitespace-pre-wrap break-words text-base leading-7 text-slate-200"
+                        ? "overflow-auto whitespace-pre-wrap break-words text-lg font-bold leading-7 text-cyan-700 dark:text-cyan-100"
+                        : "overflow-auto whitespace-pre-wrap break-words text-base leading-7 text-[var(--foreground)]"
                 }
             >
                 {value}
@@ -546,17 +546,17 @@ function MiniInfo({
             className={
                 highlight
                     ? "rounded-xl border border-cyan-400/25 bg-cyan-400/10 p-4"
-                    : "rounded-xl border border-white/10 bg-slate-950/70 p-4"
+                    : "rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-4"
             }
         >
-            <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                 {label}
             </p>
             <p
                 className={
                     highlight
-                        ? "text-lg font-bold text-cyan-100"
-                        : "text-base text-slate-200"
+                        ? "text-lg font-bold text-cyan-700 dark:text-cyan-100"
+                        : "text-base text-[var(--foreground)]"
                 }
             >
                 {value}
@@ -575,14 +575,14 @@ function AlphabetRow({
     return (
         <div className="overflow-x-auto">
             <div className="flex min-w-max items-center gap-2">
-                <span className="w-14 text-sm font-semibold text-slate-400">
+                <span className="w-14 text-sm font-semibold text-[var(--muted)]">
                     {label}
                 </span>
 
                 {letters.map((letter, index) => (
                     <span
                         key={`${label}-${letter}-${index}`}
-                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-slate-950/70 text-sm font-semibold text-slate-200"
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--card-border)] bg-[var(--card)] text-sm font-semibold text-[var(--foreground)]"
                     >
                         {letter}
                     </span>
@@ -606,7 +606,7 @@ function MatrixGrid({ matrix }: { matrix: string[][] }) {
                 row.map((cell, columnIndex) => (
                     <div
                         key={`${rowIndex}-${columnIndex}-${cell}`}
-                        className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-100"
+                        className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-700 dark:text-cyan-100"
                     >
                         {cell}
                     </div>
@@ -630,7 +630,7 @@ function NumberMatrixGrid({ matrix }: { matrix: number[][] }) {
                 row.map((cell, columnIndex) => (
                     <div
                         key={`${rowIndex}-${columnIndex}-${cell}`}
-                        className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-100"
+                        className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-700 dark:text-cyan-100"
                     >
                         {cell}
                     </div>
@@ -651,15 +651,15 @@ function CharRow({
 }) {
     return (
         <div className="flex min-w-max items-center gap-2">
-            <span className="w-16 text-sm font-semibold text-slate-400">{label}</span>
+            <span className="w-16 text-sm font-semibold text-[var(--muted)]">{label}</span>
 
             {value.split("").map((char, index) => (
                 <span
                     key={`${label}-${char}-${index}`}
                     className={
                         highlight
-                            ? "flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-100"
-                            : "flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-slate-950/70 text-sm font-semibold text-slate-200"
+                            ? "flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-700 dark:text-cyan-100"
+                            : "flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--card-border)] bg-[var(--card)] text-sm font-semibold text-[var(--foreground)]"
                     }
                 >
                     {char}
