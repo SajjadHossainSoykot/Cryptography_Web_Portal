@@ -2,7 +2,7 @@ import { PageHeader } from "../../components/ui/PageHeader";
 
 export default function ApiDocsPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <PageHeader
         badge="Backend API"
         title="API Documentation"
@@ -48,10 +48,12 @@ diffie_hellman`}
 
 function ApiBlock({ title, content }: { title: string; content: string }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-      <h2 className="mb-4 text-xl font-bold text-white">{title}</h2>
+    <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6 shadow-sm">
+      <h2 className="mb-4 text-xl font-bold text-[var(--foreground)]">
+        {title}
+      </h2>
 
-      <pre className="overflow-x-auto whitespace-pre-wrap rounded-2xl border border-white/10 bg-black/30 p-5 text-sm leading-7 text-slate-300">
+      <pre className="overflow-x-auto whitespace-pre-wrap rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5 text-sm leading-7 text-[var(--muted)]">
         {content}
       </pre>
     </div>
