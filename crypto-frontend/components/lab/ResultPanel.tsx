@@ -34,9 +34,7 @@ export function ResultPanel({
       </div>
 
       {error ? (
-        <pre className="min-h-40 max-h-80 overflow-auto rounded-2xl border border-red-400/20 bg-red-500/10 p-5 text-sm leading-7 text-red-600 dark:text-red-200">
-          {error}
-        </pre>
+        <BackendErrorMessage error={error} />
       ) : isLoading ? (
         <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5 text-sm text-[var(--muted)]">
           Running algorithm...
@@ -48,6 +46,34 @@ export function ResultPanel({
           Result will appear here.
         </div>
       )}
+    </div>
+  );
+}
+
+function BackendErrorMessage({ error }: { error: string }) {
+  const isBackendConnectionError =
+    error.toLowerCase().includes("backend server is not connected") ||
+    error.toLowerCase().includes("failed to fetch");
+
+  return (
+    <div className="min-h-40 rounded-2xl border border-red-400/25 bg-red-500/10 p-5">
+      <div className="mb-4">
+        <p className="text-sm font-bold text-red-600 dark:text-red-200">
+          {isBackendConnectionError
+            ? "Backend Server Not Connected"
+            : "Request Error"}
+        </p>
+
+        <p className="mt-1 text-xs leading-5 text-red-600/80 dark:text-red-200/80">
+          {isBackendConnectionError
+            ? "The frontend is working, but it cannot reach your FastAPI backend server."
+            : "The backend returned an error while processing this request."}
+        </p>
+      </div>
+
+      <pre className="whitespace-pre-wrap break-words rounded-xl border border-red-400/20 bg-red-500/10 p-4 text-sm leading-7 text-red-700 dark:text-red-100">
+        {error}
+      </pre>
     </div>
   );
 }
