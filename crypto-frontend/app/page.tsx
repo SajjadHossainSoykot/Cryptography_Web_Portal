@@ -13,17 +13,54 @@ const modernAlgorithms = algorithms.filter(
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <section className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-        <div>
+      <section className="mx-auto grid max-w-7xl gap-12 px-6 py-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+        <div className="min-w-0 pt-10 lg:pt-16">
           <div className="mb-6 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-600 dark:text-cyan-200">
             Cryptography and Network Security Laboratory
           </div>
 
-          <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-[var(--foreground)] md:text-6xl">
-            <i>Learn, Test, Encrypt, & Decrypt Cryptographic Algorithms.</i>
+          <h1 className="max-w-6xl text-4xl font-bold tracking-tight leading-[1.18] text-[var(--foreground)] md:text-5xl md:leading-[1.18] lg:text-5xl xl:text-6xl">
+            {/* Mobile: typing in two lines */}
+            <span className="block md:hidden">
+              <span className="mobile-type-line-1">
+                <span>Learn, Test, </span>
+                <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent">
+                  Encrypt
+                </span>
+              </span>
+
+              <span className="mobile-type-line-2 mt-3">
+                <span>, & </span>
+                <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
+                  Decrypt
+                </span>
+              </span>
+
+              <span className="mt-4 block pb-2 bg-gradient-to-r from-cyan-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent">
+                Cryptographic Algorithms.
+              </span>
+            </span>
+
+            {/* Desktop: typing in one line */}
+            <span className="hidden md:block">
+              <span className="typing-full-line">
+                <span>Learn, Test, </span>
+                <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent">
+                  Encrypt
+                </span>
+                <span>, & </span>
+                <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
+                  Decrypt
+                </span>
+              </span>
+
+              <span className="mt-4 block pb-2 bg-gradient-to-r from-cyan-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent">
+                Cryptographic Algorithms.
+              </span>
+            </span>
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--muted)]">
+          <p className="mt-6 max-w-4xl text-justify text-lg leading-8 text-[var(--muted)]">
             CipherXploreSS Web Portal is an interactive academic platform for
             experimenting with classical ciphers and modern cryptographic key
             exchange algorithms using a FastAPI backend and Next.js frontend.
@@ -47,7 +84,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6 shadow-2xl shadow-cyan-950/10 backdrop-blur dark:shadow-cyan-950/20">
+        <div className="w-full rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6 shadow-2xl shadow-cyan-950/10 backdrop-blur dark:shadow-cyan-950/20">
           <div className="grid gap-4">
             <FeatureCard
               icon={
@@ -76,7 +113,7 @@ export default function HomePage() {
                 </div>
               }
               title="Backend Powered"
-              description="All crypto operations will be processed by FastAPI backend through the unified POST /crypto endpoint."
+              description="All crypto operations are processed by the FastAPI backend through the unified POST /crypto endpoint."
             />
           </div>
         </div>
@@ -87,9 +124,10 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-[var(--foreground)]">
             Supported Algorithms
           </h2>
-          <p className="mt-2 text-[var(--muted)]">
+
+          <p className="mt-2 max-w-3xl text-justify text-[var(--muted)]">
             The portal currently supports seven algorithms from your
-            cryptography lab report.
+            cryptography laboratory experiments.
           </p>
         </div>
 
@@ -122,10 +160,13 @@ function FeatureCard({
     <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
       <div className="mb-3 flex items-center gap-3">
         {icon}
+
         <h2 className="font-semibold text-[var(--foreground)]">{title}</h2>
       </div>
 
-      <p className="text-sm leading-6 text-[var(--muted)]">{description}</p>
+      <p className="text-left text-sm leading-6 text-[var(--muted)]">
+        {description}
+      </p>
     </div>
   );
 }
@@ -155,12 +196,12 @@ function AlgorithmGroup({
                 {algorithm.name}
               </h4>
 
-              <span className="rounded-full bg-cyan-400/10 px-3 py-1 text-xs text-cyan-600 dark:text-cyan-200">
+              <span className="shrink-0 rounded-full bg-cyan-400/10 px-3 py-1 text-xs text-cyan-600 dark:text-cyan-200">
                 {algorithm.modes.join(" / ")}
               </span>
             </div>
 
-            <p className="text-sm leading-6 text-[var(--muted)]">
+            <p className="text-left text-sm leading-6 text-[var(--muted)]">
               {algorithm.description}
             </p>
           </Link>
