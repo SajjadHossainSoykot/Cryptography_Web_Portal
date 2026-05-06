@@ -75,8 +75,8 @@ export default function AboutPage() {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <PageHeader
         badge="Academic Project"
-        title="About CryptoGraphy Web Portal"
-        description="CryptoGraphy Web Portal is an academic web application for learning, testing, and demonstrating cryptographic algorithms from a cryptography and network security laboratory course."
+        title="About CipherXploreSS Web Portal"
+        description="CipherXploreSS is an academic web application for learning, testing, and demonstrating cryptographic algorithms from a cryptography and network security laboratory course."
       />
 
       <section className="mx-auto max-w-7xl px-6 pb-20">
@@ -150,7 +150,7 @@ function DeveloperCard() {
           </h2>
 
           <p className="mt-2 text-sm leading-6 text-slate-400">
-            B.Sc. Engineering student · ICT · Islamic University
+            B.Sc. Engineering in ICT · Islamic University, Bangladesh
           </p>
 
           <a
@@ -169,12 +169,12 @@ function DeveloperCard() {
         <JustifiedText className="text-slate-300">
           I am a B.Sc. Engineering student in Information and Communication
           Technology at Islamic University, Bangladesh. I am interested in
-          programming, frontend development, UI/UX design, web development,
+          programming, full stack development, UI/UX design, web development,
           research, and building academic technology projects.
         </JustifiedText>
 
         <JustifiedText className="text-slate-300">
-          This CryptoGraphy Web Portal was created to transform my Cryptography
+          This CipherXploreSS Web Portal was created to transform my Cryptography
           and Network Security laboratory experiments into an interactive
           web-based platform. Through this project, I am also learning how to
           connect a FastAPI backend with a modern Next.js frontend and how to
