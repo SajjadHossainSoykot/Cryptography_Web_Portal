@@ -16,61 +16,65 @@ export function VisualizationPanel({
     responseData,
 }: VisualizationPanelProps) {
     return (
-        <section className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6">
-            <div className="mb-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-700 dark:text-cyan-200/70">
+        <section className="w-full min-w-0 overflow-hidden rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-5 sm:p-6">
+            <div className="mb-6 min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-200/70">
                     Algorithm Visualization
                 </p>
-                <h2 className="mt-2 text-2xl font-bold text-[var(--foreground)]">
+
+                <h2 className="mt-2 break-words text-2xl font-bold text-[var(--foreground)]">
                     Visual Understanding Panel
                 </h2>
-                <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+
+                <p className="mt-2 max-w-full break-words text-sm leading-6 text-[var(--muted)]">
                     A visual explanation for the currently selected algorithm.
                 </p>
             </div>
 
-            {algorithmId === "caesar" ? (
-                <CaesarVisualization inputText={inputText} keyValues={keyValues} />
-            ) : null}
+            <div className="min-w-0">
+                {algorithmId === "caesar" ? (
+                    <CaesarVisualization inputText={inputText} keyValues={keyValues} />
+                ) : null}
 
-            {algorithmId === "playfair" ? (
-                <PlayfairVisualization
-                    inputText={inputText}
-                    keyValues={keyValues}
-                    responseData={responseData}
-                />
-            ) : null}
+                {algorithmId === "playfair" ? (
+                    <PlayfairVisualization
+                        inputText={inputText}
+                        keyValues={keyValues}
+                        responseData={responseData}
+                    />
+                ) : null}
 
-            {algorithmId === "hill" ? (
-                <HillVisualization inputText={inputText} keyValues={keyValues} />
-            ) : null}
+                {algorithmId === "hill" ? (
+                    <HillVisualization inputText={inputText} keyValues={keyValues} />
+                ) : null}
 
-            {algorithmId === "vigenere" ? (
-                <VigenereVisualization
-                    inputText={inputText}
-                    keyValues={keyValues}
-                    responseData={responseData}
-                />
-            ) : null}
+                {algorithmId === "vigenere" ? (
+                    <VigenereVisualization
+                        inputText={inputText}
+                        keyValues={keyValues}
+                        responseData={responseData}
+                    />
+                ) : null}
 
-            {algorithmId === "rail_fence" ? (
-                <RailFenceVisualization inputText={inputText} keyValues={keyValues} />
-            ) : null}
+                {algorithmId === "rail_fence" ? (
+                    <RailFenceVisualization inputText={inputText} keyValues={keyValues} />
+                ) : null}
 
-            {algorithmId === "rsa" ? (
-                <RSAVisualization
-                    mode={mode}
-                    keyValues={keyValues}
-                    responseData={responseData}
-                />
-            ) : null}
+                {algorithmId === "rsa" ? (
+                    <RSAVisualization
+                        mode={mode}
+                        keyValues={keyValues}
+                        responseData={responseData}
+                    />
+                ) : null}
 
-            {algorithmId === "diffie_hellman" ? (
-                <DiffieHellmanVisualization
-                    keyValues={keyValues}
-                    responseData={responseData}
-                />
-            ) : null}
+                {algorithmId === "diffie_hellman" ? (
+                    <DiffieHellmanVisualization
+                        keyValues={keyValues}
+                        responseData={responseData}
+                    />
+                ) : null}
+            </div>
         </section>
     );
 }
@@ -95,6 +99,7 @@ function CaesarVisualization({
     const letters = cleanLetters(inputText).slice(0, 16).split("");
     const mapping = letters.map((letter) => {
         const index = alphabet.indexOf(letter);
+
         return {
             from: letter,
             to: index >= 0 ? shiftedAlphabet[index] : letter,
@@ -102,21 +107,26 @@ function CaesarVisualization({
     });
 
     return (
-        <div className="space-y-6">
-            <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="min-w-0 space-y-6">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
                 <InfoCard label="Shift Key" value={String(shift)} highlight />
+
                 <InfoCard
                     label="Example Mapping"
-                    value={mapping.length > 0 ? mapping.map((m) => `${m.from} → ${m.to}`).join("   ") : "Enter text to preview"}
+                    value={
+                        mapping.length > 0
+                            ? mapping.map((m) => `${m.from} → ${m.to}`).join("   ")
+                            : "Enter text to preview"
+                    }
                 />
             </div>
 
-            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+            <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                     Alphabet Shift Preview
                 </p>
 
-                <div className="grid gap-3">
+                <div className="grid min-w-0 gap-3">
                     <AlphabetRow label="Plain" letters={alphabet} />
                     <AlphabetRow label="Shift" letters={shiftedAlphabet} />
                 </div>
@@ -143,7 +153,6 @@ function PlayfairVisualization({
     const resultObject = asRecord(response?.result);
 
     const rawMatrix = response?.matrix ?? resultObject?.matrix;
-
     const responseMatrix = normalizeMatrix(rawMatrix, 5);
 
     const matrix =
@@ -152,16 +161,16 @@ function PlayfairVisualization({
     const digraphs = buildPlayfairDigraphs(inputText);
 
     return (
-        <div className="space-y-6">
-            <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="min-w-0 space-y-6">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
                 <InfoCard label="Keyword" value={keyword} highlight />
 
-                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
                     <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         Digraph Preparation
                     </p>
 
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex min-w-0 flex-wrap gap-2">
                         {digraphs.length > 0 ? (
                             digraphs.map((pair, index) => (
                                 <span
@@ -180,7 +189,7 @@ function PlayfairVisualization({
                 </div>
             </div>
 
-            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+            <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                     Playfair 5 × 5 Matrix
                 </p>
@@ -207,9 +216,9 @@ function HillVisualization({
     const blocks = chunkText(text.length % 2 === 0 ? text : `${text}X`, 2);
 
     return (
-        <div className="space-y-6">
-            <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+        <div className="min-w-0 space-y-6">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+                <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
                     <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         2 × 2 Key Matrix
                     </p>
@@ -217,12 +226,12 @@ function HillVisualization({
                     <NumberMatrixGrid matrix={matrix} />
                 </div>
 
-                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
                     <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         Plaintext Blocks
                     </p>
 
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex min-w-0 flex-wrap gap-2">
                         {blocks.length > 0 ? (
                             blocks.map((block, index) => (
                                 <span
@@ -268,15 +277,15 @@ function VigenereVisualization({
             : "";
 
     return (
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
             <InfoCard label="Keyword" value={keyword} highlight />
 
-            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+            <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                     Repeated Keyword Table
                 </p>
 
-                <div className="space-y-3 overflow-x-auto">
+                <div className="w-full min-w-0 space-y-3 overflow-x-auto pb-2">
                     <CharRow label="Text" value={plain} />
                     <CharRow label="Key" value={repeatedKey} />
                     {output ? <CharRow label="Output" value={output} highlight /> : null}
@@ -298,38 +307,39 @@ function RailFenceVisualization({
     keyValues: Record<string, unknown>;
 }) {
     const depth = Number(keyValues.depth ?? 3);
-    const text = cleanLetters(inputText).slice(0, 40);
-
+    const text = cleanLetters(inputText).slice(0, 28);
     const rails = buildRailFenceGrid(text, depth);
 
     return (
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
             <InfoCard label="Rail Depth" value={String(depth)} highlight />
 
-            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+            <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                     Zigzag Rail Pattern
                 </p>
 
                 {rails.length > 0 ? (
-                    <div className="overflow-x-auto">
-                        <div className="inline-grid gap-2">
-                            {rails.map((row, rowIndex) => (
-                                <div key={`rail-${rowIndex}`} className="flex gap-2">
-                                    {row.map((cell, cellIndex) => (
-                                        <div
-                                            key={`${rowIndex}-${cellIndex}`}
-                                            className={
-                                                cell
-                                                    ? "flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-700 dark:text-cyan-100"
-                                                    : "h-9 w-9 rounded-lg border border-[var(--card-border)] bg-[var(--card)]"
-                                            }
-                                        >
-                                            {cell || ""}
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
+                    <div className="w-full min-w-0 overflow-x-auto pb-2">
+                        <div className="w-max max-w-none">
+                            <div className="grid gap-2">
+                                {rails.map((row, rowIndex) => (
+                                    <div key={`rail-${rowIndex}`} className="flex w-max gap-2">
+                                        {row.map((cell, cellIndex) => (
+                                            <div
+                                                key={`${rowIndex}-${cellIndex}`}
+                                                className={
+                                                    cell
+                                                        ? "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-700 dark:text-cyan-100"
+                                                        : "h-9 w-9 shrink-0 rounded-lg border border-[var(--card-border)] bg-[var(--card)]"
+                                                }
+                                            >
+                                                {cell || ""}
+                                            </div>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ) : (
@@ -362,20 +372,18 @@ function RSAVisualization({
     const q = keyValues.q;
     const e = keyValues.e;
 
-    const cipher =
-        Array.isArray(result?.cipher) ? result?.cipher : [];
-    const plain =
-        typeof result?.plain === "string" ? result.plain : "";
+    const cipher = Array.isArray(result?.cipher) ? result?.cipher : [];
+    const plain = typeof result?.plain === "string" ? result.plain : "";
 
     return (
-        <div className="space-y-6">
-            <div className="grid gap-4 sm:grid-cols-3">
+        <div className="min-w-0 space-y-6">
+            <div className="grid min-w-0 gap-4 sm:grid-cols-3">
                 <InfoCard label="Prime p" value={String(p ?? "")} />
                 <InfoCard label="Prime q" value={String(q ?? "")} />
                 <InfoCard label="Exponent e" value={String(e ?? "")} />
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid min-w-0 gap-4 sm:grid-cols-2">
                 {"public_key" in (result ?? {}) ? (
                     <InfoCard
                         label="Public Key"
@@ -401,12 +409,12 @@ function RSAVisualization({
             </div>
 
             {mode === "encrypt" && cipher.length > 0 ? (
-                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
                     <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                         Cipher Array
                     </p>
 
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex min-w-0 flex-wrap gap-2">
                         {cipher.map((item, index) => (
                             <span
                                 key={`${item}-${index}`}
@@ -451,17 +459,20 @@ function DiffieHellmanVisualization({
     const sharedKeyB = formatValue(result?.shared_key_b);
 
     return (
-        <div className="space-y-6">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="min-w-0 space-y-6">
+            <div className="grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <InfoCard label="Prime p" value={p} />
                 <InfoCard label="Primitive Root g" value={g} />
                 <InfoCard label="Private Key A" value={a} />
                 <InfoCard label="Private Key B" value={b} />
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr]">
-                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
-                    <p className="mb-4 text-sm font-bold text-[var(--foreground)]">User A</p>
+            <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+                <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                    <p className="mb-4 text-sm font-bold text-[var(--foreground)]">
+                        User A
+                    </p>
+
                     <div className="space-y-3">
                         <MiniInfo label="Private Key" value={a} />
                         <MiniInfo label="Public Key" value={publicKeyA} />
@@ -469,14 +480,17 @@ function DiffieHellmanVisualization({
                     </div>
                 </div>
 
-                <div className="flex items-center justify-center text-cyan-700 dark:text-cyan-200">
-                    <div className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold">
+                <div className="flex min-w-0 items-center justify-center text-cyan-700 dark:text-cyan-200">
+                    <div className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-center text-sm font-semibold">
                         Exchange Public Keys
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
-                    <p className="mb-4 text-sm font-bold text-[var(--foreground)]">User B</p>
+                <div className="min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5">
+                    <p className="mb-4 text-sm font-bold text-[var(--foreground)]">
+                        User B
+                    </p>
+
                     <div className="space-y-3">
                         <MiniInfo label="Private Key" value={b} />
                         <MiniInfo label="Public Key" value={publicKeyB} />
@@ -505,15 +519,15 @@ function InfoCard({
         <div
             className={
                 highlight
-                    ? "rounded-2xl border border-cyan-400/25 bg-cyan-400/10 p-5"
-                    : "rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5"
+                    ? "min-w-0 rounded-2xl border border-cyan-400/25 bg-cyan-400/10 p-5"
+                    : "min-w-0 rounded-2xl border border-[var(--card-border)] bg-[var(--background)]/40 p-5"
             }
         >
             <p
                 className={
                     highlight
-                        ? "mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-700 dark:text-cyan-200/70"
-                        : "mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]"
+                        ? "mb-2 break-words text-xs font-semibold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-200/70"
+                        : "mb-2 break-words text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]"
                 }
             >
                 {label}
@@ -522,8 +536,8 @@ function InfoCard({
             <pre
                 className={
                     highlight
-                        ? "overflow-auto whitespace-pre-wrap break-words text-lg font-bold leading-7 text-cyan-700 dark:text-cyan-100"
-                        : "overflow-auto whitespace-pre-wrap break-words text-base leading-7 text-[var(--foreground)]"
+                        ? "max-w-full overflow-x-auto whitespace-pre-wrap break-words text-lg font-bold leading-7 text-cyan-700 dark:text-cyan-100"
+                        : "max-w-full overflow-x-auto whitespace-pre-wrap break-words text-base leading-7 text-[var(--foreground)]"
                 }
             >
                 {value}
@@ -545,18 +559,19 @@ function MiniInfo({
         <div
             className={
                 highlight
-                    ? "rounded-xl border border-cyan-400/25 bg-cyan-400/10 p-4"
-                    : "rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-4"
+                    ? "min-w-0 rounded-xl border border-cyan-400/25 bg-cyan-400/10 p-4"
+                    : "min-w-0 rounded-xl border border-[var(--card-border)] bg-[var(--card)] p-4"
             }
         >
-            <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+            <p className="mb-1 break-words text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
                 {label}
             </p>
+
             <p
                 className={
                     highlight
-                        ? "text-lg font-bold text-cyan-700 dark:text-cyan-100"
-                        : "text-base text-[var(--foreground)]"
+                        ? "break-words text-lg font-bold text-cyan-700 dark:text-cyan-100"
+                        : "break-words text-base text-[var(--foreground)]"
                 }
             >
                 {value}
@@ -573,16 +588,16 @@ function AlphabetRow({
     letters: string[];
 }) {
     return (
-        <div className="overflow-x-auto">
-            <div className="flex min-w-max items-center gap-2">
-                <span className="w-14 text-sm font-semibold text-[var(--muted)]">
+        <div className="w-full min-w-0 overflow-x-auto pb-1">
+            <div className="flex w-max items-center gap-2">
+                <span className="w-14 shrink-0 text-sm font-semibold text-[var(--muted)]">
                     {label}
                 </span>
 
                 {letters.map((letter, index) => (
                     <span
                         key={`${label}-${letter}-${index}`}
-                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--card-border)] bg-[var(--card)] text-sm font-semibold text-[var(--foreground)]"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--card-border)] bg-[var(--card)] text-sm font-semibold text-[var(--foreground)]"
                     >
                         {letter}
                     </span>
@@ -596,22 +611,24 @@ function MatrixGrid({ matrix }: { matrix: string[][] }) {
     const columnCount = matrix[0]?.length ?? 5;
 
     return (
-        <div
-            className="grid max-w-sm gap-2"
-            style={{
-                gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-            }}
-        >
-            {matrix.map((row, rowIndex) =>
-                row.map((cell, columnIndex) => (
-                    <div
-                        key={`${rowIndex}-${columnIndex}-${cell}`}
-                        className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-700 dark:text-cyan-100"
-                    >
-                        {cell}
-                    </div>
-                ))
-            )}
+        <div className="w-full min-w-0 overflow-x-auto pb-1">
+            <div
+                className="grid w-full max-w-sm gap-2"
+                style={{
+                    gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+                }}
+            >
+                {matrix.map((row, rowIndex) =>
+                    row.map((cell, columnIndex) => (
+                        <div
+                            key={`${rowIndex}-${columnIndex}-${cell}`}
+                            className="flex aspect-square min-w-0 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-700 dark:text-cyan-100"
+                        >
+                            {cell}
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 }
@@ -620,22 +637,24 @@ function NumberMatrixGrid({ matrix }: { matrix: number[][] }) {
     const columnCount = matrix[0]?.length ?? 2;
 
     return (
-        <div
-            className="grid max-w-[180px] gap-2"
-            style={{
-                gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-            }}
-        >
-            {matrix.map((row, rowIndex) =>
-                row.map((cell, columnIndex) => (
-                    <div
-                        key={`${rowIndex}-${columnIndex}-${cell}`}
-                        className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-700 dark:text-cyan-100"
-                    >
-                        {cell}
-                    </div>
-                ))
-            )}
+        <div className="w-full min-w-0 overflow-x-auto pb-1">
+            <div
+                className="grid w-[180px] max-w-full gap-2"
+                style={{
+                    gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+                }}
+            >
+                {matrix.map((row, rowIndex) =>
+                    row.map((cell, columnIndex) => (
+                        <div
+                            key={`${rowIndex}-${columnIndex}-${cell}`}
+                            className="flex aspect-square items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10 text-lg font-bold text-cyan-700 dark:text-cyan-100"
+                        >
+                            {cell}
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 }
@@ -650,16 +669,18 @@ function CharRow({
     highlight?: boolean;
 }) {
     return (
-        <div className="flex min-w-max items-center gap-2">
-            <span className="w-16 text-sm font-semibold text-[var(--muted)]">{label}</span>
+        <div className="flex w-max min-w-full items-center gap-2">
+            <span className="w-16 shrink-0 text-sm font-semibold text-[var(--muted)]">
+                {label}
+            </span>
 
             {value.split("").map((char, index) => (
                 <span
                     key={`${label}-${char}-${index}`}
                     className={
                         highlight
-                            ? "flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-700 dark:text-cyan-100"
-                            : "flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--card-border)] bg-[var(--card)] text-sm font-semibold text-[var(--foreground)]"
+                            ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-sm font-bold text-cyan-700 dark:text-cyan-100"
+                            : "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[var(--card-border)] bg-[var(--card)] text-sm font-semibold text-[var(--foreground)]"
                     }
                 >
                     {char}
