@@ -103,48 +103,48 @@ export default function LabPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <div className="min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
       <PageHeader
         badge="Interactive Experiment Area"
         title="Interactive Cryptography Lab"
         description="Select an algorithm, enter text, customize keys, send requests to the FastAPI backend, and view the result instantly."
       />
 
-      <section className="mx-auto max-w-7xl px-6 pb-10">
-        <div className="grid gap-6">
+      <section className="mx-auto w-full max-w-7xl overflow-hidden px-4 pb-10 sm:px-6">
+        <div className="grid min-w-0 gap-6">
           <AlgorithmSelector
             algorithms={algorithms}
             selectedAlgorithmId={selectedAlgorithmId}
             onSelect={handleAlgorithmSelect}
           />
 
-          <div className="grid gap-6 xl:grid-cols-[1fr_420px]">
-            <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-6 shadow-sm">
-              <div className="mb-6">
+          <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_420px]">
+            <div className="min-w-0 rounded-3xl border border-[var(--card-border)] bg-[var(--card)] p-5 shadow-sm sm:p-6">
+              <div className="mb-6 min-w-0">
                 <p className="mb-2 text-sm font-medium text-cyan-600 dark:text-cyan-200">
                   {selectedAlgorithm.category}
                 </p>
 
-                <h2 className="text-3xl font-bold text-[var(--foreground)]">
+                <h2 className="break-words text-3xl font-bold text-[var(--foreground)]">
                   {selectedAlgorithm.name}
                 </h2>
 
-                <p className="mt-3 max-w-3xl text-sm leading-6 text-[var(--muted)]">
+                <p className="mt-3 max-w-3xl break-words text-sm leading-6 text-[var(--muted)]">
                   {selectedAlgorithm.description}
                 </p>
 
                 <div className="mt-4">
                   <Link
                     href={selectedAlgorithm.route}
-                    className="inline-flex w-fit items-center justify-center gap-1.5 rounded-lg border border-[var(--card-border)] bg-[var(--background)]/40 px-3 py-1.5 text-xs font-medium text-[var(--muted)] transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-600 dark:hover:text-cyan-200"
+                    className="inline-flex w-fit max-w-full items-center justify-center gap-1.5 rounded-lg border border-[var(--card-border)] bg-[var(--background)]/40 px-3 py-1.5 text-xs font-medium text-[var(--muted)] transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-600 dark:hover:text-cyan-200"
                   >
-                    <BookOpen className="h-3.5 w-3.5" />
-                    View Theory and Algorithm
+                    <BookOpen className="h-3.5 w-3.5 shrink-0" />
+                    <span className="break-words">View Theory and Algorithm</span>
                   </Link>
                 </div>
               </div>
 
-              <div className="grid gap-6">
+              <div className="grid min-w-0 gap-6">
                 <ModeSelector
                   modes={selectedAlgorithm.modes}
                   selectedMode={selectedMode}
@@ -181,7 +181,7 @@ export default function LabPage() {
                   onKeyChange={handleKeyChange}
                 />
 
-                <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="flex min-w-0 flex-col gap-3 sm:flex-row">
                   <button
                     type="button"
                     disabled={isLoading}
@@ -213,25 +213,31 @@ export default function LabPage() {
               </div>
             </div>
 
-            <aside className="grid content-start gap-6">
-              <ResultPanel
-                data={responseData}
-                result={result}
-                error={error}
-                isLoading={isLoading}
-              />
+            <aside className="grid min-w-0 content-start gap-6">
+              <div className="min-w-0">
+                <ResultPanel
+                  data={responseData}
+                  result={result}
+                  error={error}
+                  isLoading={isLoading}
+                />
+              </div>
 
-              <ApiPreview payload={payload} />
+              <div className="min-w-0">
+                <ApiPreview payload={payload} />
+              </div>
             </aside>
           </div>
 
-          <VisualizationPanel
-            algorithmId={selectedAlgorithm.id}
-            mode={selectedMode}
-            inputText={inputText}
-            keyValues={keyValues}
-            responseData={responseData}
-          />
+          <div className="min-w-0">
+            <VisualizationPanel
+              algorithmId={selectedAlgorithm.id}
+              mode={selectedMode}
+              inputText={inputText}
+              keyValues={keyValues}
+              responseData={responseData}
+            />
+          </div>
         </div>
       </section>
     </div>
