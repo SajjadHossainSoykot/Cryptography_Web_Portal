@@ -30,7 +30,7 @@ export default function HomePage() {
               </span>
 
               <span className="mobile-type-line-2 mt-3">
-                <span>, & </span>
+                <span> & </span>
                 <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
                   Decrypt
                 </span>
@@ -48,7 +48,7 @@ export default function HomePage() {
                 <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent">
                   Encrypt
                 </span>
-                <span>, & </span>
+                <span> & </span>
                 <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
                   Decrypt
                 </span>
