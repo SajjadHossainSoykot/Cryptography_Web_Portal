@@ -69,6 +69,7 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAlgorithmsOpen, setIsAlgorithmsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -261,55 +262,80 @@ export function Navbar() {
             </Link>
 
             {/* Mobile Algorithms Section */}
-            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--card)] p-4">
-              <Link
-                href="/algorithms"
-                onClick={() => setIsOpen(false)}
-                className="mb-4 flex items-center justify-between rounded-xl bg-cyan-400/10 px-4 py-3 text-sm font-bold text-cyan-600 transition hover:bg-cyan-400/20 dark:text-cyan-200"
-              >
-                Algorithms
-                <span className="text-xs font-medium">View All</span>
-              </Link>
+            {/* Mobile Algorithms Section */}
+            <div className="rounded-2xl border border-[var(--card-border)] bg-[var(--card)] p-3">
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/algorithms"
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsAlgorithmsOpen(false);
+                  }}
+                  className="flex-1 rounded-xl bg-cyan-400/10 px-4 py-3 text-sm font-bold text-cyan-600 transition hover:bg-cyan-400/20 dark:text-cyan-200"
+                >
+                  Algorithms
+                </Link>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
-                    Classical
-                  </p>
-
-                  <div className="grid gap-2">
-                    {classicalAlgorithms.map((algo) => (
-                      <Link
-                        key={algo.href}
-                        href={algo.href}
-                        onClick={() => setIsOpen(false)}
-                        className="rounded-xl px-3 py-2 text-sm font-medium text-[var(--foreground)] transition hover:bg-cyan-400/10 hover:text-cyan-600 dark:hover:text-cyan-200"
-                      >
-                        {algo.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
-                    Modern
-                  </p>
-
-                  <div className="grid gap-2">
-                    {modernAlgorithms.map((algo) => (
-                      <Link
-                        key={algo.href}
-                        href={algo.href}
-                        onClick={() => setIsOpen(false)}
-                        className="rounded-xl px-3 py-2 text-sm font-medium text-[var(--foreground)] transition hover:bg-purple-400/10 hover:text-purple-600 dark:hover:text-purple-200"
-                      >
-                        {algo.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsAlgorithmsOpen((value) => !value)}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--card-border)] bg-[var(--background)] text-cyan-600 transition hover:border-cyan-400/40 hover:bg-cyan-400/10 dark:text-cyan-200"
+                  aria-label="Toggle algorithms menu"
+                >
+                  <ChevronDown
+                    className={`h-5 w-5 transition-transform duration-200 ${isAlgorithmsOpen ? "rotate-180" : ""
+                      }`}
+                  />
+                </button>
               </div>
+
+              {isAlgorithmsOpen ? (
+                <div className="mt-4 grid gap-5 rounded-2xl border border-[var(--card-border)] bg-[var(--background)] p-4 sm:grid-cols-2">
+                  <div>
+                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                      Classical
+                    </p>
+
+                    <div className="grid gap-2">
+                      {classicalAlgorithms.map((algo) => (
+                        <Link
+                          key={algo.href}
+                          href={algo.href}
+                          onClick={() => {
+                            setIsOpen(false);
+                            setIsAlgorithmsOpen(false);
+                          }}
+                          className="rounded-xl px-3 py-2 text-sm font-medium text-[var(--foreground)] transition hover:bg-cyan-400/10 hover:text-cyan-600 dark:hover:text-cyan-200"
+                        >
+                          {algo.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                      Modern
+                    </p>
+
+                    <div className="grid gap-2">
+                      {modernAlgorithms.map((algo) => (
+                        <Link
+                          key={algo.href}
+                          href={algo.href}
+                          onClick={() => {
+                            setIsOpen(false);
+                            setIsAlgorithmsOpen(false);
+                          }}
+                          className="rounded-xl px-3 py-2 text-sm font-medium text-[var(--foreground)] transition hover:bg-purple-400/10 hover:text-purple-600 dark:hover:text-purple-200"
+                        >
+                          {algo.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
             </div>
 
             <Link
