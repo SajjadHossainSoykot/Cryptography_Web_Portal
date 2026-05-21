@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { BookOpen, Loader2, Play } from "lucide-react";
+import { BookOpen, Loader2, Play, Server } from "lucide-react";
 import {
   algorithms,
   type Algorithm,
@@ -139,7 +139,9 @@ export default function LabPage() {
                     className="inline-flex w-fit max-w-full items-center justify-center gap-1.5 rounded-lg border border-[var(--card-border)] bg-[var(--background)]/40 px-3 py-1.5 text-xs font-medium text-[var(--muted)] transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-600 dark:hover:text-cyan-200"
                   >
                     <BookOpen className="h-3.5 w-3.5 shrink-0" />
-                    <span className="break-words">View Theory and Algorithm</span>
+                    <span className="break-words">
+                      View Theory and Algorithm
+                    </span>
                   </Link>
                 </div>
               </div>
@@ -180,6 +182,24 @@ export default function LabPage() {
                   keyValues={keyValues}
                   onKeyChange={handleKeyChange}
                 />
+
+                <div className="rounded-2xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm text-amber-800 dark:text-amber-100">
+                  <div className="flex gap-3">
+                    <Server className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-300" />
+
+                    <div className="space-y-1">
+                      <p className="font-semibold">
+                        Backend server may take a few seconds to wake up
+                      </p>
+
+                      <p className="leading-6 text-amber-800/90 dark:text-amber-100/80">
+                        This lab uses a deployed Render API. If the server was
+                        inactive for a while, the first request may be slower.
+                        Please wait after clicking the Run Algorithm button.
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="flex min-w-0 flex-col gap-3 sm:flex-row">
                   <button
