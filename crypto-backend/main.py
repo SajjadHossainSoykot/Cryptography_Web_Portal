@@ -33,6 +33,13 @@ class CryptoRequest(BaseModel):
     text: str | list[int] | None = ""
     key: dict | None = None
 
+@app.get("/health")
+def health_check():
+    return {
+        "status": "ok",
+        "message": "CipherXploreSS API is healthy"
+    }
+
 
 @app.get("/")
 def home():
