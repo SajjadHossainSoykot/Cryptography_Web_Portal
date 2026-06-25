@@ -1,0 +1,55 @@
+name: Keep Render Service Awake
+
+on:
+  schedule:
+    # Runs every 10 minutes.
+    # Render free services sleep after 15 minutes of inactivity.
+    - cron: "*/10 * * * *"
+
+  # Allows manual run from GitHub Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    env:
+      URLS: |
+        https://cipherxploress-api.onrender.com/health
+
+    steps:
+      - name: Ping Render service
+        shell: bash
+        run: |
+          echo "Starting Render keep-awake ping..."
+
+          while IFS= read -r url; do
+            url="$(echo "$url" | xargs)"
+
+            if [ -z "$url" ] || [[ "$url" == \#* ]]; then
+              continue
+            fi
+
+            echo "Pinging: $url"
+
+            http_code=$(curl -L -sS -o /dev/null -w "%{http_code}" \
+              --max-time 60 \
+              --connect-timeout 20 \
+              --retry 2 \
+              --retry-delay 5 \
+              "$url") || http_code="000"
+
+            echo "Response code: $http_code"
+
+            if [[ "$http_code" =~ ^2|^3 ]]; then
+              echo "OK: Render service is awake."
+            else
+              echo "Warning: Render service returned $http_code"
+            fi
+
+          done <<< "$URLS"
+
+          echo "Keep-awake job finished."
